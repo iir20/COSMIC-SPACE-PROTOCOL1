@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Marketplace - Cosmic Space Protocol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="nft.css">
+    <style>
+        .marketplace-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .nft-card {
+            background: rgba(20, 20, 40, 0.8);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nft-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .nft-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nft-info {
+            padding: 15px;
+        }
+
+        .nft-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .nft-price {
+            font-size: 1.1em;
+            color: #5b5be6;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .nft-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .filters {
+            background: rgba(20, 20, 40, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .filter-item {
+            flex: 1;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .trending-section {
+            margin-bottom: 30px;
+        }
+
+        .trending-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .trending-card {
+            background: rgba(91, 91, 230, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .price-chart {
+            width: 100%;
+            height: 200px;
+            margin-top: 20px;
+        }
+
+        .rarity-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .rarity-common { background: #6c757d; }
+        .rarity-uncommon { background: #28a745; }
+        .rarity-rare { background: #17a2b8; }
+        .rarity-epic { background: #9c27b0; }
+        .rarity-legendary { background: #ffc107; color: #000; }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-buttons button {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .buy-button {
+            background: #5b5be6;
+            color: white;
+        }
+
+        .buy-button:hover {
+            background: #4a4ad5;
+        }
+
+        .cancel-button {
+            background: #dc3545;
+            color: white;
+        }
+
+        .cancel-button:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body class="cosmic-theme">
+    <!-- Background Elements -->
+    <div class="cosmic-background"></div>
+    <div id="stars" class="stars"></div>
+    <div id="nebula" class="nebula"></div>
+    <div id="aurora" class="aurora"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="cosmic-loading-overlay">
+        <div class="cosmic-spinner"></div>
+        <p>Loading Marketplace...</p>
+    </div>
+
+    <div class="container">
+        <header class="main-header">
+            <div class="header-content">
+                <h1 class="cosmic-title">NFT Marketplace</h1>
+                <p class="header-subtitle">Trade Cosmic Space NFTs</p>
+            </div>
+
+            <nav class="cosmic-nav">
+                <a href="nft-collection.html" class="cosmic-nav-item">
+                    <i class="fas fa-images"></i>
+                    <span>My Collection</span>
+                </a>
+                <a href="nft-mint.html" class="cosmic-nav-item">
+                    <i class="fas fa-magic"></i>
+                    <span>Mint NFT</span>
+                </a>
+                <a href="nft-staking.html" class="cosmic-nav-item">
+                    <i class="fas fa-layer-group"></i>
+                    <span>NFT Staking</span>
+                </a>
+            </nav>
+
+            <div class="wallet-section">
+                <button class="cosmic-button primary wallet-connect" id="wallet-connect-btn">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                </button>
+                <div class="wallet-info" style="display: none;">
+                    <div class="balance-item">
+                        <i class="fas fa-coins"></i>
+                        <span id="xcis-balance">0.00</span>
+                        <span class="currency">xCIS</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Trending Section -->
+            <section class="trending-section">
+                <h2>Trending NFTs</h2>
+                <div class="trending-grid" id="trending-nfts">
+                    <!-- Trending NFTs will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Filters -->
+            <section class="filters">
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <label class="filter-label">Type</label>
+                        <select class="cosmic-select" id="filter-type">
+                            <option value="">All Types</option>
+                            <option value="Planet">Planets</option>
+                            <option value="Star">Stars</option>
+                            <option value="Galaxy">Galaxies</option>
+                            <option value="BlackHole">Black Holes</option>
+                            <option value="Nebula">Nebulas</option>
+                            <option value="Comet">Comets</option>
+                            <option value="Asteroid">Asteroids</option>
+                            <option value="Satellite">Satellites</option>
+                    </select>
+                    </div>
+                    <div class="filter-item">
+                        <label class="filter-label">Rarity</label>
+                        <select class="cosmic-select" id="filter-rarity">
+                            <option value="">All Rarities</option>
+                            <option value="common">Common</option>
+                            <option value="uncommon">Uncommon</option>
+                            <option value="rare">Rare</option>
+                            <option value="epic">Epic</option>
+                            <option value="legendary">Legendary</option>
+                    </select>
+                </div>
+                    <div class="filter-item">
+                        <label class="filter-label">Sort By</label>
+                        <select class="cosmic-select" id="filter-sort">
+                            <option value="recent">Most Recent</option>
+                            <option value="price_asc">Price: Low to High</option>
+                            <option value="price_desc">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <label class="filter-label">Min Price (xCIS)</label>
+                        <input type="number" class="cosmic-input" id="filter-min-price" min="0" step="0.1">
+                    </div>
+                    <div class="filter-item">
+                        <label class="filter-label">Max Price (xCIS)</label>
+                        <input type="number" class="cosmic-input" id="filter-max-price" min="0" step="0.1">
+                    </div>
+                </div>
+            </section>
+
+            <!-- NFT Listings -->
+            <section class="marketplace-grid" id="nft-listings">
+                <!-- NFT listings will be loaded here -->
+            </section>
+        </main>
+
+        <footer class="cosmic-footer">
+            <p>&copy; 2024 COSMIC Space Protocol. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- NFT Details Modal -->
+    <div id="nft-details-modal" class="cosmic-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>NFT Details</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                    <div class="nft-details">
+                    <img id="modal-nft-image" src="" alt="NFT" class="nft-image">
+                    <h3 id="modal-nft-name"></h3>
+                    <div id="modal-nft-attributes"></div>
+                    <div class="price-history">
+                        <h4>Price History</h4>
+                        <canvas id="price-chart"></canvas>
+                    </div>
+                    <div class="action-buttons" id="modal-actions">
+                        <!-- Action buttons will be added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="blockchain.js"></script>
+    <script src="cisp-wallet.js"></script>
+    <script src="wallet-config.js"></script>
+    <script src="wallet-manager.js"></script>
+    <script src="notifications.js"></script>
+    <script src="nft-system.js"></script>
+    <script src="nft-marketplace.js"></script>
+    <script src="cosmic-ui.js"></script>
+    <script src="wallet-sync.js"></script>
+    <script src="cosmic-functions.js"></script>
+    <script src="cosmic-integration.js"></script>
+    <script src="enhanced-cosmic-effects.js"></script>
+
+    <script>
+        let priceChart = null;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            loadingOverlay.style.display = 'flex';
+
+            try {
+                // Initialize systems
+                await initializeSystems();
+                
+                // Load initial data
+                await loadMarketplaceData();
+
+                // Setup event listeners
+                setupEventListeners();
+
+            } catch (error) {
+                console.error('Error initializing marketplace:', error);
+                if (window.notifications) {
+                    window.notifications.show('error', 'Failed to initialize marketplace');
+                }
+            } finally {
+                loadingOverlay.style.display = 'none';
+            }
+        });
+
+        async function initializeSystems() {
+            // Initialize notification system
+            if (!window.notifications) {
+                console.warn('Notification system not found');
+            }
+
+            // Initialize wallet system
+                        if (window.cispWallet) {
+                try {
+                    await window.cispWallet.init();
+                            const wallet = window.cispWallet.getCurrentWallet();
+                            if (wallet) {
+                        updateWalletDisplay(wallet);
+                    }
+                } catch (error) {
+                    console.warn('Wallet initialization error:', error);
+                }
+            }
+
+            // Initialize marketplace
+            if (!window.nftMarketplace) {
+                throw new Error('NFT Marketplace system not found');
+            }
+            await window.nftMarketplace.initialize();
+                            }
+
+        async function loadMarketplaceData() {
+            // Load trending NFTs
+            const trending = await window.nftMarketplace.getTrendingNFTs();
+            displayTrendingNFTs(trending);
+
+            // Load listings with current filters
+            await updateListings();
+                        }
+
+        function setupEventListeners() {
+            // Filter change events
+            document.getElementById('filter-type').addEventListener('change', updateListings);
+            document.getElementById('filter-rarity').addEventListener('change', updateListings);
+            document.getElementById('filter-sort').addEventListener('change', updateListings);
+            document.getElementById('filter-min-price').addEventListener('input', debounce(updateListings, 500));
+            document.getElementById('filter-max-price').addEventListener('input', debounce(updateListings, 500));
+
+            // Wallet connect button
+            const connectBtn = document.getElementById('wallet-connect-btn');
+            if (connectBtn) {
+                connectBtn.addEventListener('click', connectWallet);
+            }
+
+            // Modal close buttons
+            document.querySelectorAll('.close-modal').forEach(button => {
+                button.addEventListener('click', () => {
+                    const modal = button.closest('.cosmic-modal');
+                    if (modal) modal.style.display = 'none';
+                });
+            });
+
+            // Marketplace event listeners
+            window.nftMarketplace.addListener((event, data) => {
+                switch (event) {
+                    case 'listing':
+                    case 'cancel':
+                    case 'sale':
+                        updateListings();
+                        break;
+                }
+            });
+        }
+
+        async function updateListings() {
+            const filters = {
+                type: document.getElementById('filter-type').value,
+                rarity: document.getElementById('filter-rarity').value,
+                sortBy: document.getElementById('filter-sort').value,
+                minPrice: parseFloat(document.getElementById('filter-min-price').value) || 0,
+                maxPrice: parseFloat(document.getElementById('filter-max-price').value) || Infinity
+            };
+
+            const listings = window.nftMarketplace.getListings(filters);
+            displayListings(listings);
+            }
+
+        function displayListings(listings) {
+            const container = document.getElementById('nft-listings');
+            container.innerHTML = '';
+
+            if (listings.length === 0) {
+                container.innerHTML = `
+                        <div class="empty-state">
+                        <i class="fas fa-store-slash"></i>
+                        <p>No NFTs found matching your filters</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+            listings.forEach(listing => {
+                const card = createNFTCard(listing);
+                container.appendChild(card);
+            });
+        }
+
+        function createNFTCard(listing) {
+                    const card = document.createElement('div');
+            card.className = 'nft-card';
+                    card.innerHTML = `
+                <img src="images/${listing.metadata.type}-${listing.metadata.rarity}-1.png" 
+                     class="nft-image" alt="${listing.metadata.name}">
+                <div class="nft-info">
+                    <div class="nft-name">${listing.metadata.name}</div>
+                    <div class="nft-price">${listing.price} xCIS</div>
+                    <div class="nft-meta">
+                        <span class="rarity-badge rarity-${listing.metadata.rarity.toLowerCase()}">
+                            ${listing.metadata.rarity}
+                        </span>
+                        <span>${timeAgo(listing.timestamp)}</span>
+                        </div>
+                    <div class="action-buttons">
+                        <button class="cosmic-button primary buy-button" onclick="showNFTDetails('${listing.tokenId}')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+                    `;
+            return card;
+        }
+
+        function displayTrendingNFTs(trending) {
+            const container = document.getElementById('trending-nfts');
+            container.innerHTML = '';
+
+            trending.forEach(nft => {
+                const card = document.createElement('div');
+                card.className = 'trending-card';
+                card.innerHTML = `
+                    <img src="images/${nft.metadata.type}-${nft.metadata.rarity}-1.png" 
+                         class="nft-image" alt="${nft.metadata.name}" style="height: 150px;">
+                    <div class="trending-info">
+                        <div class="nft-name">${nft.metadata.name}</div>
+                        <div class="nft-price">${nft.price} xCIS</div>
+                    </div>
+                `;
+                card.onclick = () => showNFTDetails(nft.tokenId);
+                container.appendChild(card);
+            });
+        }
+
+        async function showNFTDetails(tokenId) {
+            const listing = window.nftMarketplace.listings.get(tokenId);
+            if (!listing) return;
+
+            const modal = document.getElementById('nft-details-modal');
+            const image = document.getElementById('modal-nft-image');
+            const name = document.getElementById('modal-nft-name');
+            const attributes = document.getElementById('modal-nft-attributes');
+            const actions = document.getElementById('modal-actions');
+
+            image.src = `images/${listing.metadata.type}-${listing.metadata.rarity}-1.png`;
+            name.textContent = listing.metadata.name;
+
+            // Display attributes
+            attributes.innerHTML = `
+                <div class="attribute-grid">
+                    <div class="attribute">
+                        <span class="label">Type:</span>
+                        <span class="value">${listing.metadata.type}</span>
+                    </div>
+                    <div class="attribute">
+                        <span class="label">Rarity:</span>
+                        <span class="value ${listing.metadata.rarity.toLowerCase()}">${listing.metadata.rarity}</span>
+                    </div>
+                    <div class="attribute">
+                        <span class="label">Price:</span>
+                        <span class="value">${listing.price} xCIS</span>
+                    </div>
+                    <div class="attribute">
+                        <span class="label">Seller:</span>
+                        <span class="value">${shortenAddress(listing.seller)}</span>
+                    </div>
+                </div>
+            `;
+
+            // Setup action buttons
+            const currentWallet = window.cispWallet?.getCurrentWallet()?.address;
+            actions.innerHTML = '';
+
+            if (currentWallet === listing.seller) {
+                actions.innerHTML = `
+                    <button class="cosmic-button cancel-button" onclick="cancelListing('${tokenId}')">
+                        Cancel Listing
+                    </button>
+                `;
+            } else {
+                actions.innerHTML = `
+                    <button class="cosmic-button buy-button" onclick="buyNFT('${tokenId}')">
+                        Buy Now (${listing.price} xCIS)
+                    </button>
+                `;
+            }
+
+            // Show price history
+            const history = window.nftMarketplace.getPriceHistory(tokenId);
+            displayPriceHistory(history);
+
+            modal.style.display = 'flex';
+        }
+
+        function displayPriceHistory(history) {
+            const ctx = document.getElementById('price-chart').getContext('2d');
+            
+            if (priceChart) {
+                priceChart.destroy();
+            }
+
+            if (history.length < 2) {
+                document.getElementById('price-chart').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('price-chart').style.display = 'block';
+
+            const labels = history.map(item => new Date(item.timestamp).toLocaleDateString());
+            const prices = history.map(item => item.price);
+
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Price (xCIS)',
+                        data: prices,
+                        borderColor: '#5b5be6',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'rgba(255, 255, 255, 0.7)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function buyNFT(tokenId) {
+            try {
+                await window.nftMarketplace.buyNFT(tokenId);
+                if (window.notifications) {
+                    window.notifications.show('success', 'NFT purchased successfully!');
+                }
+                document.getElementById('nft-details-modal').style.display = 'none';
+                await updateListings();
+            } catch (error) {
+                console.error('Error buying NFT:', error);
+                if (window.notifications) {
+                    window.notifications.show('error', error.message);
+                }
+            }
+        }
+
+        async function cancelListing(tokenId) {
+            try {
+                await window.nftMarketplace.cancelListing(tokenId);
+                    if (window.notifications) {
+                    window.notifications.show('success', 'Listing cancelled successfully');
+                }
+                document.getElementById('nft-details-modal').style.display = 'none';
+                await updateListings();
+            } catch (error) {
+                console.error('Error cancelling listing:', error);
+                if (window.notifications) {
+                    window.notifications.show('error', error.message);
+                }
+            }
+        }
+
+        async function connectWallet() {
+            try {
+                if (window.cispWallet) {
+                    await window.cispWallet.connect();
+                    const wallet = window.cispWallet.getCurrentWallet();
+                    if (wallet) {
+                        updateWalletDisplay(wallet);
+                    }
+                }
+            } catch (error) {
+                console.error('Error connecting wallet:', error);
+                if (window.notifications) {
+                    window.notifications.show('error', 'Failed to connect wallet');
+                }
+            }
+        }
+
+        function updateWalletDisplay(wallet) {
+            const connectBtn = document.getElementById('wallet-connect-btn');
+            const walletInfo = document.querySelector('.wallet-info');
+            
+            if (wallet) {
+                connectBtn.style.display = 'none';
+                walletInfo.style.display = 'flex';
+                document.getElementById('wallet-address').textContent = shortenAddress(wallet.address);
+            } else {
+                connectBtn.style.display = 'flex';
+                walletInfo.style.display = 'none';
+            }
+        }
+
+        function shortenAddress(address) {
+            if (!address) return 'Unknown';
+            return `${address.slice(0, 6)}...${address.slice(-4)}`;
+        }
+
+        function timeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+            
+            if (seconds < 60) return 'just now';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `${minutes}m ago`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours}h ago`;
+            const days = Math.floor(hours / 24);
+            return `${days}d ago`;
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+    </script>
+</body>
+</html> 

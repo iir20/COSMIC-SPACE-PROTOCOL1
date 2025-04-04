@@ -1,0 +1,264 @@
+/**
+ * Cosmic Space Protocol - Background Styles
+ */
+
+/* Space background */
+.cosmic-background {
+    background-color: #0c0c1d;
+    background-image: url('assets/stars.png'), 
+                     radial-gradient(circle at 30% 20%, rgba(128, 0, 255, 0.15) 0%, rgba(0, 0, 0, 0) 30%),
+                     radial-gradient(circle at 70% 60%, rgba(0, 128, 255, 0.1) 0%, rgba(0, 0, 0, 0) 40%);
+    background-attachment: fixed;
+    background-size: 500px, 100%, 100%;
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Animated stars */
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    animation: twinkle 4s infinite;
+    opacity: 0.7;
+}
+
+/* Star sizes */
+.star.tiny {
+    width: 1px;
+    height: 1px;
+}
+
+.star.small {
+    width: 2px;
+    height: 2px;
+}
+
+.star.medium {
+    width: 3px;
+    height: 3px;
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+.star.large {
+    width: 4px;
+    height: 4px;
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.9);
+}
+
+/* Star color variations */
+.star.blue {
+    background-color: #61dbfb;
+}
+
+.star.purple {
+    background-color: #c678dd;
+}
+
+.star.yellow {
+    background-color: #ffd700;
+}
+
+.star.cyan {
+    background-color: #00ffff;
+}
+
+/* Glowing nebula effect */
+.nebula {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: 
+        radial-gradient(circle at 30% 20%, rgba(148, 0, 211, 0.15) 0%, rgba(0, 0, 0, 0) 50%),
+        radial-gradient(circle at 70% 80%, rgba(0, 191, 255, 0.12) 0%, rgba(0, 0, 0, 0) 50%),
+        radial-gradient(circle at 10% 90%, rgba(238, 130, 238, 0.1) 0%, rgba(0, 0, 0, 0) 40%),
+        radial-gradient(circle at 90% 10%, rgba(75, 0, 130, 0.08) 0%, rgba(0, 0, 0, 0) 40%);
+    z-index: -1;
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+/* Space dust particles */
+@keyframes particles {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.6;
+    }
+    80% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translate(var(--end-x), var(--end-y)) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.particle {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 1px;
+    height: 1px;
+    border-radius: 50%;
+    z-index: 1;
+    opacity: 0;
+    animation: particles 8s linear infinite;
+}
+
+/* Twinkle animation */
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* Glass effect for UI elements */
+.glass-panel {
+    background: rgba(13, 12, 34, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    color: white;
+}
+
+/* Token displays */
+.token-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 15px;
+    background: rgba(20, 20, 40, 0.6);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    margin: 10px 0;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.token-display:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.token-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.cis-token {
+    background: linear-gradient(45deg, #6b46c1, #9f7aea);
+    color: white;
+}
+
+.xcis-token {
+    background: linear-gradient(45deg, #2c7a7b, #4fd1c5);
+    color: white;
+}
+
+.token-value {
+    font-size: 1.4rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.token-name {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+}
+
+/* Token value colors */
+.cis-value {
+    color: #9f7aea;
+}
+
+.xcis-value {
+    color: #4fd1c5;
+}
+
+/* Balance change highlight animation */
+@keyframes highlight-balance {
+    0% {
+        box-shadow: 0 0 0 0 rgba(159, 122, 234, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(159, 122, 234, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(159, 122, 234, 0);
+    }
+}
+
+.balance-updated {
+    animation: highlight-balance 1.5s ease-in-out;
+}
+
+/* Cosmic Background Styles */
+body {
+  background-color: #0a0e29;
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(61, 26, 124, 0.3) 0%, rgba(0, 0, 0, 0) 40%),
+    radial-gradient(circle at 85% 85%, rgba(20, 92, 168, 0.3) 0%, rgba(0, 0, 0, 0) 40%),
+    url('images/stars-bg.png');
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #ffffff;
+}
+
+/* Space Dust */
+.space-dust {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('images/space-dust.png');
+  background-size: cover;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: -3;
+  animation: drift 120s infinite linear;
+}
+
+/* Animation Keyframes */
+@keyframes drift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 1000px 500px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    background-size: auto;
+  }
+} 

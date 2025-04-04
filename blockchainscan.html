@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CISP BlockchainScan</title>
+    <link rel="stylesheet" href="styles-home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="main-container">
+        <header class="cosmic-header">
+            <div class="logo-container">
+                <i class="fas fa-galaxy"></i>
+                <h1>CISP BlockchainScan</h1>
+            </div>
+        </header>
+
+        <div class="welcome-section">
+            <h2>All Transactions and Active Miners</h2>
+            <p>Below you will find the details of all transactions and active miners.</p>
+        </div>
+
+        <div id="transactions" class="features-grid">
+            <!-- Transaction details will be dynamically populated here -->
+        </div>
+
+        <div id="miners" class="features-grid">
+            <!-- Active miner details will be dynamically populated here -->
+        </div>
+    </div>
+
+    <script src="blockchain.js"></script>
+    <script>
+        // Fetch and display transactions and miners
+        async function fetchBlockchainData() {
+            try {
+                // Show loading indicator
+                const transactionsContainer = document.getElementById('transactions');
+                transactionsContainer.innerHTML = '<p>Loading transactions...</p>';
+                
+                const minersContainer = document.getElementById('miners');
+                minersContainer.innerHTML = '<p>Loading miners...</p>';
+
+                // Fetch transactions and miners from the blockchain API
+                const transactions = await fetch('/api/transactions').then(res => {
+                    if (!res.ok) throw new Error('Failed to fetch transactions');
+                    return res.json();
+                });
+                const miners = await fetch('/api/miners').then(res => {
+                    if (!res.ok) throw new Error('Failed to fetch miners');
+                    return res.json();
+                });
+
+                // Clear loading indicator
+                transactionsContainer.innerHTML = '';
+                minersContainer.innerHTML = '';
+
+                // Populate transactions
+                transactions.forEach(tx => {
+                    const txCard = document.createElement('div');
+                    txCard.className = 'feature-card';
+                    txCard.innerHTML = `
+                        <div class="feature-content">
+                            <h3>Transaction ID: ${tx.id}</h3>
+                            <p>Amount: ${tx.amount}</p>
+                            <p>From: ${tx.from}</p>
+                            <p>To: ${tx.to}</p>
+                        </div>
+                    `;
+                    transactionsContainer.appendChild(txCard);
+                });
+
+                // Populate miners
+                miners.forEach(miner => { 
+                    const minerCard = document.createElement('div');
+                    minerCard.className = 'feature-card';
+                    minerCard.innerHTML = `
+                        <div class="feature-content">
+                            <h3>Miner ID: ${miner.id}</h3>
+                            <p>Status: ${miner.status}</p>
+                            <p>Hash Rate: ${miner.hashRate}</p>
+                        </div>
+                    `;
+                    minersContainer.appendChild(minerCard);
+                });
+            } catch (error) {
+                console.error('Error fetching blockchain data:', error);
+                const transactionsContainer = document.getElementById('transactions');
+                transactionsContainer.innerHTML = '<p>Error loading transactions.</p>';
+                const minersContainer = document.getElementById('miners');
+                minersContainer.innerHTML = '<p>Error loading miners.</p>';
+            }
+        }
+
+        // Initialize data fetching
+        document.addEventListener('DOMContentLoaded', fetchBlockchainData);
+        setInterval(fetchBlockchainData, 30000); // Refresh data every 30 seconds
+    </script>
+</body>
+</html>

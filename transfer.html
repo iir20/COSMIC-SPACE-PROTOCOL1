@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Transfer - COSMIC SPACE PROTOCOL</title>
+    <link rel="stylesheet" href="styles-home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="cosmic-header">
+        <div class="logo-container">
+            <i class="fas fa-galaxy"></i>
+            <h1>COSMIC SPACE PROTOCOL</h1>
+        </div>
+        <div class="header-controls">
+            <div class="wallet-info" id="wallet-info" style="display: none;">
+                <span id="wallet-balance">0 xCIS</span>
+                <span id="wallet-address"></span>
+            </div>
+            <button class="wallet-connect" onclick="connectWallet()">
+                <i class="fas fa-wallet"></i> Connect Wallet
+            </button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <h2>Send Tokens</h2>
+        <div class="transfer-form">
+            <select id="tokenType">
+                <option value="xCIS">xCIS</option>
+                <option value="CIS">CIS</option>
+            </select>
+            <input type="text" id="recipientAddress" placeholder="Recipient Address">
+            <input type="number" id="transferAmount" placeholder="Amount">
+            <button onclick="sendTokens()">Transfer</button>
+        </div>
+    </div>
+
+    <script src="notifications.js"></script>
+    <script src="blockchain.js"></script>
+    <script src="cisp-wallet.js"></script>
+    <script>
+        async function sendTokens() {
+            const tokenType = document.getElementById('tokenType').value;
+            const recipient = document.getElementById('recipientAddress').value;
+            const amount = parseFloat(document.getElementById('transferAmount').value);
+
+            if (!recipient || !amount) {
+                window.notifications.show('Please fill in all fields', 'error');
+                return;
+            }
+
+            const result = await window.tokenTransfer.sendTokens(
+                window.cispWallet.currentWallet.address,
+                recipient,
+                amount,
+                tokenType
+            );
+
+            window.notifications.show(result.message, result.success ? 'success' : 'error');
+            if (result.success) {
+                document.getElementById('recipientAddress').value = '';
+                document.getElementById('transferAmount').value = '';
+            }
+        }
+    </script>
+</body>
+</html>

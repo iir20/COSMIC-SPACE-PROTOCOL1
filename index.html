@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>COSMIC SPACE - Web3 Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="description" content="Welcome to Cosmic Space Protocol - Your Gateway to Web3 Space Exploration">
+    
+    <!-- Core styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-home.css">
+    <link rel="stylesheet" href="cosmic-background.css">
+    
+    <!-- Initialize blockchain -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Initialize systems in correct order after scripts are loaded
+                console.log('DOM loaded, scripts will initialize systems');
+            } catch (error) {
+                console.error('Error in DOMContentLoaded listener:', error);
+            }
+        });
+    </script>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #7f00ff, #e100ff);
+            --secondary-gradient: linear-gradient(135deg, #2d3748, #1a202c);
+            --accent-color: #e100ff;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --background-dark: rgba(10, 11, 30, 0.8);
+            --card-background: rgba(20, 21, 40, 0.9); /* Ensure this line is correct */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0b1e;
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1a1f3c 0%, #0a0b1e 100%);
+            z-index: -2;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: twinkle 5s infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.4; }
+            100% { opacity: 0.3; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero-section {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(225, 0, 255, 0.3);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .cta-button {
+            padding: 1rem 2.5rem;
+            min-width: 150px; /* Ensure buttons are large enough */
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cta-primary {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(127, 0, 255, 0.3);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(127, 0, 255, 0.5);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-secondary:hover {
+            border-color: var(--accent-color);
+            background: rgba(225, 0, 255, 0.1);
+        }
+
+        .features-section {
+            padding: 4rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--card-background);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 15px 35px rgba(127, 0, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .wallet-section {
+            padding: 4rem 0;
+            background: var(--background-dark);
+            border-radius: 30px;
+            margin: 2rem 0;
+        }
+
+        .wallet-connect-button {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 2rem auto;
+        }
+
+        .wallet-connect-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(127, 0, 255, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            .cta-button {
+                padding: 0.8rem 2rem; /* Adjust padding for smaller screens */
+                font-size: 1rem; /* Adjust font size for smaller screens */
+            }
+            .features-grid {
+                grid-template-columns: 1fr; /* Stack features on small screens */
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .feature-card {
+                margin: 1rem;
+            }
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 20px rgba(225, 0, 255, 0.3); }
+            50% { text-shadow: 0 0 30px rgba(225, 0, 255, 0.5); }
+            100% { text-shadow: 0 0 20px rgba(225, 0, 255, 0.3); }
+        }
+
+        .referral-section {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+
+        .referral-section h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .referral-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .referral-input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(225, 0, 255, 0.2);
+        }
+
+        .welcome-nft-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            animation: welcomeNFT 5s ease-in-out forwards;
+        }
+
+        .welcome-message {
+            text-align: center;
+        }
+
+        .welcome-rewards {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .reward-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+        }
+
+        .reward-item i {
+            color: var(--accent-color);
+        }
+
+        @keyframes welcomeNFT {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            80% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+        }
+
+        /* Additional styles for improved wallet interface */
+        .wallet-container {
+            background: rgba(30, 35, 60, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .wallet-interface {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .wallet-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .wallet-options {
+            display: flex;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .wallet-option {
+            flex: 1;
+            padding: 0.8rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .wallet-option.active {
+            background: var(--primary-gradient);
+            font-weight: 600;
+        }
+        
+        .wallet-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .form-input {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(225, 0, 255, 0.2);
+        }
+        
+        .wallet-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .action-button {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .action-button.primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 8px 15px rgba(127, 0, 255, 0.2);
+        }
+        
+        .action-button.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(127, 0, 255, 0.3);
+        }
+        
+        .action-button.secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .action-button.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .wallet-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .wallet-footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .wallet-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 1.2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .wallet-address {
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+        
+        .wallet-balance {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .wallet-balance-amount {
+            font-weight: 600;
+        }
+        
+        .wallet-connected {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .connection-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #48bb78;
+        }
+        
+        .loader {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+        
+        .loader-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .wallet-section {
+            transition: all 0.5s ease;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .methods-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            color: var(--text-secondary);
+        }
+        
+        .methods-divider::before,
+        .methods-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Cosmic Loading Animation */
+        .cosmic-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 11, 30, 0.9);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .cosmic-loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 3px solid rgba(127, 0, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .cosmic-loading-text {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-weight: 500;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        /* Additional styles for wallet sections */
+        .seed-phrase-container {
+            background: rgba(13, 17, 40, 0.8);
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .warning-text {
+            color: #ffcc00;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            background: rgba(255, 204, 0, 0.1);
+            padding: 0.8rem;
+            border-radius: 8px;
+        }
+
+        .seed-phrase {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .seed-word {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 0.5rem;
+            font-family: monospace;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: calc(25% - 0.5rem);
+            box-sizing: border-box;
+        }
+
+        .word-index {
+            font-size: 0.7rem;
+            color: var(--accent-color);
+            margin-bottom: 0.2rem;
+        }
+
+        .seed-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .copy-btn, .download-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .copy-btn:hover, .download-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .confirmation-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .confirmation-checkbox input[type="checkbox"] {
+            width: 1.2rem;
+            height: 1.2rem;
+            accent-color: var(--accent-color);
+        }
+
+        .wallet-details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .wallet-details p {
+            margin: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .wallet-details span {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Form hint styles */
+        .form-hint {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+            display: block;
+        }
+
+        /* Password strength meter */
+        .password-strength {
+            margin: 0.5rem 0 1.5rem;
+        }
+
+        .strength-bar {
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            position: relative;
+            width: 0%;
+            transition: all 0.3s ease;
+            margin-bottom: 0.3rem;
+        }
+
+        .strength-text {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Notification styles */
+        .notification-area {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+        }
+
+        .notification {
+            padding: 12px 16px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease forwards;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.success {
+            background: rgba(39, 174, 96, 0.95);
+            border-left: 5px solid #27ae60;
+        }
+
+        .notification.error {
+            background: rgba(231, 76, 60, 0.95);
+            border-left: 5px solid #e74c3c;
+        }
+
+        .notification.warning {
+            background: rgba(241, 196, 15, 0.95);
+            border-left: 5px solid #f1c40f;
+            color: #333;
+        }
+
+        .notification i {
+            font-size: 1.2rem;
+        }
+
+        .notification span {
+            flex-grow: 1;
+        }
+
+        .close-notification {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .close-notification:hover {
+            opacity: 1;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Loading indicators */
+        .loader {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .loader-spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s linear infinite;
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Media queries for responsive seed phrase display */
+        @media (max-width: 768px) {
+            .seed-word {
+                width: calc(33.33% - 0.5rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .seed-word {
+                width: calc(50% - 0.5rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-background"></div>
+    <div class="stars"></div>
+
+    <div class="container">
+        <div class="hero-section" style="padding: 2rem 1rem;">
+            <div class="hero-content">
+                <h1 class="hero-title">COSMIC SPACE PROTOCOL</h1>
+                <p class="hero-subtitle">Embark on a journey through the decentralized cosmos. Mine, trade, and explore the future of Web3 space exploration. Join our community and start earning rewards today!</p>
+                <div class="cta-buttons" style="flex-direction: column;">
+
+
+                    
+                    <div class="wallet-container fade-in">
+                        <div class="wallet-header">
+                            <h3>Connect to Cosmic Space</h3>
+                            <div id="notificationArea" class="notification-area"></div>
+                            <p>Create a wallet or connect an existing one</p>
+                        </div>
+                        
+                        <div class="wallet-options">
+                            <div class="wallet-option active" onclick="switchWalletOption('create')">Create New</div>
+                            <div class="wallet-option" onclick="switchWalletOption('import')">Import Existing</div>
+                        </div>
+                        
+                        <div class="wallet-interface" id="wallet-create-section">
+                            <div class="wallet-form">
+                                <div class="form-group">
+                                    <label for="walletName">Wallet Name</label>
+                                    <input type="text" id="walletName" class="form-input" 
+                                           placeholder="Enter wallet name (min 3 characters)" 
+                                           required>
+                                    <small class="form-hint">Pick a name that helps you identify this wallet</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="createWalletPassword">Password</label>
+                                    <input type="password" id="createWalletPassword" class="form-input" 
+                                           placeholder="Create a secure password (min 6 characters)" 
+                                           required>
+                                    <small class="form-hint">Used to encrypt your wallet data</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmCreateWalletPassword">Confirm Password</label>
+                                    <input type="password" id="confirmCreateWalletPassword" class="form-input" 
+                                           placeholder="Confirm your password" 
+                                           required>
+                                </div>
+                                <div class="password-strength" id="passwordStrengthMeter">
+                                    <div class="strength-bar"></div>
+                                    <span class="strength-text">Password strength: Weak</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="referralCode">Referral Code (Optional)</label>
+                                    <input type="text" id="referralCode" class="form-input" 
+                                           placeholder="Enter referral code for 100 xCIS bonus">
+                                    <small class="form-hint">Get an extra 100 xCIS with a valid referral code</small>
+                                </div>
+                                <div class="wallet-actions">
+                                    <button class="action-button primary" onclick="createNewWallet()" id="create-wallet-btn">
+                                        <i class="fas fa-wallet"></i> Create Wallet
+                                    </button>
+                                </div>
+                                <div id="loadingIndicator" class="loader" style="display:none;">
+                                    <div class="loader-spinner"></div>
+                                    <span>Creating your wallet...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="wallet-interface" id="wallet-import-section" style="display:none;">
+                            <div class="wallet-form">
+                                <div class="form-group">
+                                    <label for="importWalletName">Wallet Name</label>
+                                    <input type="text" id="importWalletName" class="form-input" 
+                                           placeholder="Enter a name for this wallet"
+                                           required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="seedPhrase">Seed Phrase</label>
+                                    <textarea id="seedPhrase" class="form-input" rows="3" 
+                                              placeholder="Enter your 12 or 24 word seed phrase separated by spaces"
+                                              required></textarea>
+                                    <small class="form-hint">Paste the seed phrase exactly as it was provided</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="importWalletPasswordField">Password</label>
+                                    <input type="password" id="importWalletPasswordField" class="form-input" 
+                                           placeholder="Create a password for this wallet"
+                                           required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmImportWalletPassword">Confirm Password</label>
+                                    <input type="password" id="confirmImportWalletPassword" class="form-input" 
+                                           placeholder="Confirm your password"
+                                           required>
+                                </div>
+                                <div class="wallet-actions">
+                                    <button class="action-button primary" onclick="importWalletFromSeed()" id="import-wallet-btn">
+                                        <i class="fas fa-file-import"></i> Import Wallet
+                                    </button>
+                                </div>
+                                <div id="importLoadingIndicator" class="loader" style="display:none;">
+                                    <div class="loader-spinner"></div>
+                                    <span>Importing your wallet...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="wallet-footer">
+                            By creating a wallet, you agree to the <a href="#">Terms of Service</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section" style="padding: 2rem 1rem;">
+            <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                <div class="feature-card">
+                    <i class="fas fa-hammer feature-icon"></i>
+                    <h3 class="feature-title">Cosmic Mining Hub</h3>
+                    <p class="feature-description">Mine xCIS tokens with advanced mining algorithms and earn rewards in real-time.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-gem feature-icon"></i>
+                    <h3 class="feature-title">Explore NFTs</h3>
+                    <p class="feature-description">Discover and collect unique cosmic NFTs with real utility in the ecosystem.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-lock feature-icon"></i>
+                    <h3 class="feature-title">Staking Rewards</h3>
+                    <p class="feature-description">Stake your tokens to earn passive rewards and participate in governance.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Wallet Modal -->
+    <div id="importWalletModal" class="modal" role="dialog" aria-labelledby="importWalletModalTitle" aria-describedby="importWalletModalDescription">
+        <div class="modal-content" id="importWalletModalDescription">
+            <span class="close-modal" onclick="closeModal('importWalletModal')">&times;</span>
+            <h2 class="modal-title" id="importWalletModalTitle">Import Wallet</h2>
+            <div class="import-form">
+                <div class="form-group">
+                    <label for="seedPhrase">Enter Seed Phrase</label>
+                    <textarea id="seedPhrase" rows="3" placeholder="Enter your 12 or 24 word seed phrase"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="connectWalletPassword">Password</label>
+                    <input type="password" id="connectWalletPassword" placeholder="Create a password">
+                </div>
+                <button class="action-button" onclick="importWalletFromSeed()">
+                    <i class="fas fa-download"></i> Import Wallet
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Wallet Created Modal -->
+    <div id="newWalletModal" class="modal" role="dialog" aria-labelledby="newWalletModalTitle" aria-describedby="newWalletModalDescription">
+        <div class="modal-content" style="max-width: 500px; margin: auto;">
+            <span class="close-modal" onclick="closeModal('newWalletModal')">&times;</span>
+            <h2 class="modal-title" id="newWalletModalTitle">Your New Cosmic Wallet</h2>
+
+            <div class="seed-phrase-container">
+                <div class="warning-text">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>IMPORTANT:</strong> Save your seed phrase securely! You will need it to recover your wallet.
+                </div>
+                <div class="seed-phrase" id="newSeedPhrase"></div>
+                <div class="seed-actions">
+                <button class="copy-btn" onclick="copySeedPhrase()">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+                    <button class="download-btn" onclick="downloadSeedPhrase()">
+                        <i class="fas fa-download"></i> Download
+                </button>
+                </div>
+            </div>
+            <div class="confirmation-checkbox">
+                <input type="checkbox" id="seedConfirmation">
+                <label for="seedConfirmation">I have saved my seed phrase in a secure location</label>
+            </div>
+            <div class="wallet-details">
+                <p>Wallet Name: <span id="wallet-name-display"></span></p>
+                <p>Address: <span id="wallet-address-display"></span></p>
+                <p>Initial Balance: <span id="wallet-balance-display">100 xCIS</span></p>
+            </div>
+            <button class="action-button primary" onclick="confirmNewWallet()" id="confirmWalletBtn" disabled>
+                <i class="fas fa-check"></i> Continue to Cosmic Space
+            </button>
+        </div>
+    </div>
+
+    <!-- Add Wallet Modal -->
+    <div id="addWalletModal" class="modal" role="dialog" aria-labelledby="addWalletModalTitle" aria-describedby="addWalletModalDescription">
+        <div class="modal-content" id="addWalletModalDescription">
+            <span class="close-modal" onclick="closeModal('addWalletModal')">&times;</span>
+            <h2 class="modal-title" id="addWalletModalTitle">Add Another Wallet</h2>
+            <div class="modal-body" style="padding: 1rem;">
+                <button class="modal-button" onclick="createNewWallet()">
+                    <i class="fas fa-plus-circle"></i> Create New Wallet
+                </button>
+                <div class="modal-divider"><span>OR</span></div>
+                <button class="modal-button secondary" onclick="showImportWalletModal(); closeModal('addWalletModal')">
+                    <i class="fas fa-file-import"></i> Import Existing Wallet
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include libraries -->
+    <script src="lib/crypto-js.min.js"></script>
+    <script src="lib/web3.min.js"></script>
+
+    <!-- Include WebAssembly support for blockchain -->
+    <script src="blockchain-wasm.js"></script>
+
+    <!-- Include blockchain implementation -->
+    <script src="blockchain.js"></script>
+
+    <!-- Include UI components -->
+    <script src="share-modal.js"></script>
+
+    <!-- Include our fix scripts BEFORE other scripts -->
+    <script src="wallet-balance-fix.js"></script>
+    <script src="mining-system-fix.js"></script>
+    <script src="new-user-gift-fix.js"></script>
+
+    <!-- Include the wallet reconnect fix script -->
+    <script src="wallet-reconnect-fix.js"></script>
+
+    <!-- Include the global state sync script -->
+    <script src="global-state-sync.js"></script>
+
+    <!-- Include the NFT page fix script -->
+    <script src="nft-page-fix.js"></script>
+
+    <!-- Include the global coordination script -->
+    <script src="global-coordination.js"></script>
+
+    <!-- Include the cosmic integration script -->
+    <script src="cosmic-integration.js"></script>
+
+    <!-- Include the cosmic functions script -->
+    <script src="cosmic-functions.js"></script>
+
+    <!-- Include wallet synchronization script -->
+    <script src="wallet-sync.js"></script>
+
+    <!-- Then include the existing scripts in the proper order -->
+    <script src="cisp-wallet.js"></script>
+    <script src="nft-system.js"></script>
+    <script src="mining-system.js"></script>
+    <script src="notifications.js"></script>
+    <script src="mining.js"></script>
+    <script src="cosmic-effects.js"></script>
+    <script src="walletconnect.js"></script>
+
+    <!-- Add meta tag for mobile web app capability -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add before the closing </body> tag -->
+    <script src="enhanced-cosmic-effects.js"></script>
+    <script src="improved-wallet-sync.js"></script>
+
+    <script>
+        // Initialize all systems when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initializing all systems...');
+            
+            // Initialize wallet system
+            if (window.cispWallet) {
+                window.cispWallet.init().then(() => {
+                    // Check if user already has a wallet
+                    if (window.cispWallet.getCurrentWallet()) {
+                        // Redirect to home page if they have a wallet
+                        setTimeout(() => {
+                            window.location.href = 'home.html';
+                        }, 1000);
+                    }
+                });
+            }
+            
+            // Add password strength meter functionality
+            const passwordInput = document.getElementById('createWalletPassword');
+            const confirmPasswordInput = document.getElementById('confirmCreateWalletPassword');
+            const strengthMeter = document.getElementById('passwordStrengthMeter');
+            const strengthBar = strengthMeter.querySelector('.strength-bar');
+            const strengthText = strengthMeter.querySelector('.strength-text');
+            
+            passwordInput.addEventListener('input', () => {
+                const password = passwordInput.value;
+                const strength = calculatePasswordStrength(password);
+                
+                // Update strength meter
+                strengthBar.style.width = `${strength}%`;
+                
+                // Update color based on strength
+                if (strength < 33) {
+                    strengthBar.style.backgroundColor = '#ff4d4d';
+                    strengthText.textContent = 'Password strength: Weak';
+                } else if (strength < 66) {
+                    strengthBar.style.backgroundColor = '#ffa64d';
+                    strengthText.textContent = 'Password strength: Medium';
+                } else {
+                    strengthBar.style.backgroundColor = '#4dff4d';
+                    strengthText.textContent = 'Password strength: Strong';
+                }
+            });
+            
+            confirmPasswordInput.addEventListener('input', () => {
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                
+                if (password && confirmPassword) {
+                    if (password !== confirmPassword) {
+                        confirmPasswordInput.setCustomValidity('Passwords do not match');
+                    } else {
+                        confirmPasswordInput.setCustomValidity('');
+                    }
+                }
+            });
+            
+            // Add event listeners for wallet type selection
+            const createOption = document.querySelector('.wallet-option[onclick*="create"]');
+            const importOption = document.querySelector('.wallet-option[onclick*="import"]');
+            
+            if (createOption && importOption) {
+                createOption.addEventListener('click', () => {
+                    switchWalletOption('create');
+                });
+                
+                importOption.addEventListener('click', () => {
+                    switchWalletOption('import');
+                });
+            }
+            
+            // Add checkbox event listener for seed phrase confirmation
+            const seedConfirmation = document.getElementById('seedConfirmation');
+            const confirmWalletBtn = document.getElementById('confirmWalletBtn');
+            
+            if (seedConfirmation && confirmWalletBtn) {
+                seedConfirmation.addEventListener('change', function(e) {
+                    confirmWalletBtn.disabled = !e.target.checked;
+                });
+            }
+            
+            // Initialize form validation
+            initializeFormValidation();
+        });
+
+        // Function to calculate password strength
+        function calculatePasswordStrength(password) {
+            if (!password) return 0;
+            
+            let strength = 0;
+            
+            // Length check
+            if (password.length >= 8) strength += 20;
+            if (password.length >= 12) strength += 10;
+            if (password.length >= 16) strength += 10;
+            
+            // Character type checks
+            if (/[a-z]/.test(password)) strength += 15; // lowercase
+            if (/[A-Z]/.test(password)) strength += 15; // uppercase
+            if (/\d/.test(password)) strength += 15; // numbers
+            if (/[^A-Za-z0-9]/.test(password)) strength += 15; // special chars
+            
+            return Math.min(100, strength);
+        }
+        
+        // Function to switch between create and import wallet options
+        function switchWalletOption(option) {
+            const createSection = document.getElementById('wallet-create-section');
+            const importSection = document.getElementById('wallet-import-section');
+            const createOption = document.querySelector('.wallet-option[onclick*="create"]');
+            const importOption = document.querySelector('.wallet-option[onclick*="import"]');
+            
+            if (option === 'create') {
+                createSection.style.display = 'block';
+                importSection.style.display = 'none';
+                createOption.classList.add('active');
+                importOption.classList.remove('active');
+            } else {
+                createSection.style.display = 'none';
+                importSection.style.display = 'block';
+                createOption.classList.remove('active');
+                importOption.classList.add('active');
+            }
+        }
+        
+        // Initialize form validation
+        function initializeFormValidation() {
+            const createForm = document.querySelector('#wallet-create-section .wallet-form');
+            const importForm = document.querySelector('#wallet-import-section .wallet-form');
+            
+            if (createForm) {
+                createForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    createNewWallet();
+                });
+            }
+            
+            if (importForm) {
+                importForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    importWalletFromSeed();
+                });
+            }
+        }
+        
+        // Function to create a new wallet
+        async function createNewWallet() {
+            try {
+                // Show loading state
+                const createButton = document.querySelector('#create-wallet-btn');
+                if (createButton) {
+                    createButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Wallet...';
+                    createButton.disabled = true;
+                }
+
+                // Show loading indicator
+                const loadingIndicator = document.getElementById('loadingIndicator');
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'flex';
+                }
+
+                // Get form values
+                const walletNameInput = document.getElementById('walletName');
+                const passwordInput = document.getElementById('createWalletPassword');
+                const confirmPasswordInput = document.getElementById('confirmCreateWalletPassword');
+                const referralCodeInput = document.getElementById('referralCode');
+                
+                if (!walletNameInput || !passwordInput || !confirmPasswordInput) {
+                    console.error("Wallet form inputs not found");
+                    return;
+                }
+                
+                const walletName = walletNameInput.value.trim();
+                const password = passwordInput.value.trim();
+                const confirmPassword = confirmPasswordInput.value.trim();
+                const referralCode = referralCodeInput ? referralCodeInput.value.trim() : '';
+                
+                // Validate wallet name
+                if (!walletName || walletName.length < 3) {
+                    showNotification('error', 'Please enter a wallet name (minimum 3 characters)');
+                    resetCreateWalletForm(createButton, loadingIndicator);
+                    return;
+                }
+                
+                // Validate password
+                if (!password || password.length < 6) {
+                    showNotification('error', 'Please enter a secure password (minimum 6 characters)');
+                    resetCreateWalletForm(createButton, loadingIndicator);
+                    return;
+                }
+                
+                // Check if passwords match
+                if (password !== confirmPassword) {
+                    showNotification('error', 'Passwords do not match');
+                    resetCreateWalletForm(createButton, loadingIndicator);
+                    return;
+                }
+                
+                // Make sure wallet system is available
+                if (!window.cispWallet) {
+                    showNotification('error', 'Wallet system not available. Please refresh the page and try again.');
+                    resetCreateWalletForm(createButton, loadingIndicator);
+                    return;
+                }
+                
+                // Attempt to create the wallet
+                const wallet = await window.cispWallet.createWallet(walletName, password);
+                
+                // Reset the form
+                resetCreateWalletForm(createButton, loadingIndicator);
+                
+                // Display the seed phrase
+                const seedPhrase = await getSeedPhraseForWallet(wallet.address, password);
+                displaySeedPhrase(seedPhrase, wallet);
+                
+                // Apply referral code if provided
+                if (referralCode && window.referralSystem) {
+                    try {
+                        await window.referralSystem.applyReferralCode(wallet.address, referralCode);
+                        showNotification('success', 'Referral code applied! +100 xCIS bonus added to your wallet');
+                    } catch (refError) {
+                        console.error('Error applying referral code:', refError);
+                        showNotification('warning', 'Invalid referral code, but wallet created successfully');
+                    }
+                }
+            } catch (error) {
+                console.error('Error creating wallet:', error);
+                showNotification('error', 'Failed to create wallet: ' + error.message);
+                resetCreateWalletForm(document.querySelector('#create-wallet-btn'), document.getElementById('loadingIndicator'));
+            }
+        }
+        
+        // Function to reset the create wallet form
+        function resetCreateWalletForm(button, loadingIndicator) {
+            if (button) {
+                button.innerHTML = '<i class="fas fa-wallet"></i> Create Wallet';
+                button.disabled = false;
+            }
+            
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+        
+        // Function to get seed phrase for a wallet
+        async function getSeedPhraseForWallet(address, password) {
+            try {
+                if (!window.cispWallet || !window.cispWallet.exportWallet) {
+                    throw new Error('Wallet export functionality not available');
+                }
+                
+                const exportData = await window.cispWallet.exportWallet(address, password);
+                return exportData.seedPhrase;
+            } catch (error) {
+                console.error('Error getting seed phrase:', error);
+                return null;
+            }
+        }
+        
+        // Function to display seed phrase and show the modal
+        function displaySeedPhrase(seedPhrase, wallet) {
+            const seedPhraseElement = document.getElementById('newSeedPhrase');
+            const walletNameElement = document.getElementById('wallet-name-display');
+            const walletAddressElement = document.getElementById('wallet-address-display');
+            
+            if (seedPhraseElement) {
+                if (seedPhrase) {
+                    // Create word containers for the seed phrase
+                    const words = seedPhrase.split(' ');
+                    let htmlContent = '';
+                    
+                    words.forEach((word, index) => {
+                        htmlContent += `<span class="seed-word"><span class="word-index">${index + 1}</span>${word}</span>`;
+                    });
+                    
+                    seedPhraseElement.innerHTML = htmlContent;
+                } else {
+                    seedPhraseElement.textContent = 'Unable to display seed phrase. Please contact support.';
+                }
+            }
+            
+            if (walletNameElement) {
+                walletNameElement.textContent = wallet.name;
+            }
+            
+            if (walletAddressElement) {
+                walletAddressElement.textContent = wallet.address;
+            }
+            
+            // Show the modal
+            const modal = document.getElementById('newWalletModal');
+            if (modal) {
+                modal.style.display = 'block';
+            }
+        }
+        
+        // Function to copy seed phrase to clipboard
+        function copySeedPhrase() {
+            const seedPhraseElement = document.getElementById('newSeedPhrase');
+            
+            if (!seedPhraseElement) return;
+            
+            // Extract just the words without the index numbers
+            const seedWords = Array.from(seedPhraseElement.querySelectorAll('.seed-word'))
+                .map(span => span.innerText.replace(/^\d+/, '').trim())
+                .join(' ');
+            
+            if (!seedWords) {
+                showNotification('error', 'No seed phrase to copy');
+                return;
+            }
+            
+            navigator.clipboard.writeText(seedWords)
+                .then(() => {
+                    showNotification('success', 'Seed phrase copied to clipboard');
+                })
+                .catch(err => {
+                    console.error('Error copying seed phrase:', err);
+                    showNotification('error', 'Failed to copy seed phrase');
+                });
+        }
+        
+        // Function to download seed phrase as a text file
+        function downloadSeedPhrase() {
+            const seedPhraseElement = document.getElementById('newSeedPhrase');
+            const walletNameElement = document.getElementById('wallet-name-display');
+            
+            if (!seedPhraseElement) return;
+            
+            // Extract just the words without the index numbers
+            const seedWords = Array.from(seedPhraseElement.querySelectorAll('.seed-word'))
+                .map(span => span.innerText.replace(/^\d+/, '').trim())
+                .join(' ');
+            
+            if (!seedWords) {
+                showNotification('error', 'No seed phrase to download');
+                return;
+            }
+            
+            const walletName = walletNameElement ? walletNameElement.textContent : 'cosmic-wallet';
+            const content = `COSMIC SPACE PROTOCOL - RECOVERY SEED PHRASE\n\nWallet: ${walletName}\nDate: ${new Date().toLocaleString()}\n\nSEED PHRASE (keep this secret and secure):\n${seedWords}\n\nIMPORTANT: Never share this seed phrase with anyone. Anyone with this phrase can access your wallet.`;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            a.href = url;
+            a.download = `${walletName.replace(/\s+/g, '-')}-recovery-phrase.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('success', 'Seed phrase downloaded');
+        }
+        
+        // Function to confirm wallet creation and proceed
+        function confirmNewWallet() {
+            closeModal('newWalletModal');
+            
+            // Show success message
+            showNotification('success', 'Wallet successfully created! Redirecting to Cosmic Space...');
+            
+            // Redirect to home page
+                    setTimeout(() => {
+                        window.location.href = 'home.html';
+            }, 2000);
+        }
+        
+        // Function to close modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Function to import wallet from seed phrase
+        async function importWalletFromSeed() {
+            try {
+                // Show loading state
+                const importButton = document.getElementById('import-wallet-btn');
+                if (importButton) {
+                    importButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Importing Wallet...';
+                    importButton.disabled = true;
+                }
+
+                // Show loading indicator
+                const loadingIndicator = document.getElementById('importLoadingIndicator');
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'flex';
+                }
+
+                // Get form values
+                const walletNameInput = document.getElementById('importWalletName');
+                const seedPhraseInput = document.getElementById('seedPhrase');
+                const passwordInput = document.getElementById('importWalletPasswordField');
+                const confirmPasswordInput = document.getElementById('confirmImportWalletPassword');
+                
+                if (!walletNameInput || !seedPhraseInput || !passwordInput || !confirmPasswordInput) {
+                    console.error("Import form inputs not found");
+                    resetImportForm(importButton, loadingIndicator);
+                    return;
+                }
+                
+                const walletName = walletNameInput.value.trim();
+                const seedPhrase = seedPhraseInput.value.trim();
+                const password = passwordInput.value.trim();
+                const confirmPassword = confirmPasswordInput.value.trim();
+                
+                // Validate wallet name
+                if (!walletName || walletName.length < 3) {
+                    showNotification('error', 'Please enter a wallet name (minimum 3 characters)');
+                    resetImportForm(importButton, loadingIndicator);
+                    return;
+                }
+                
+                // Validate seed phrase
+                if (!seedPhrase) {
+                    showNotification('error', 'Please enter your seed phrase');
+                    resetImportForm(importButton, loadingIndicator);
+                    return;
+                }
+                
+                // Validate password
+                if (!password || password.length < 6) {
+                    showNotification('error', 'Please enter a secure password (minimum 6 characters)');
+                    resetImportForm(importButton, loadingIndicator);
+                    return;
+                }
+                
+                // Check if passwords match
+                if (password !== confirmPassword) {
+                    showNotification('error', 'Passwords do not match');
+                    resetImportForm(importButton, loadingIndicator);
+                    return;
+                }
+                
+                // Make sure wallet system is available
+                if (!window.cispWallet || !window.cispWallet.restoreWallet) {
+                    showNotification('error', 'Wallet import functionality not available. Please refresh the page and try again.');
+                    resetImportForm(importButton, loadingIndicator);
+                    return;
+                }
+                
+                // Attempt to restore the wallet
+                const wallet = await window.cispWallet.restoreWallet(seedPhrase, password, walletName);
+                
+                // Reset the form
+                resetImportForm(importButton, loadingIndicator);
+                
+                // Show success message
+                showNotification('success', `Wallet "${walletName}" imported successfully!`);
+                
+                // Redirect to home page
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 2000);
+            } catch (error) {
+                console.error('Error importing wallet:', error);
+                showNotification('error', 'Failed to import wallet: ' + error.message);
+                resetImportForm(document.getElementById('import-wallet-btn'), document.getElementById('importLoadingIndicator'));
+            }
+        }
+        
+        // Function to reset the import form
+        function resetImportForm(button, loadingIndicator) {
+            if (button) {
+                button.innerHTML = '<i class="fas fa-file-import"></i> Import Wallet';
+                button.disabled = false;
+            }
+            
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Function to show notification
+        function showNotification(type, message) {
+            // Try to use the notification system if available
+            if (window.notifications && window.notifications.show) {
+                window.notifications.show(message, type);
+                return;
+            }
+            
+            // Fallback to simple notification implementation
+            const notificationArea = document.getElementById('notificationArea');
+            if (!notificationArea) return;
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-times-circle' : 'fa-exclamation-circle'}"></i>
+                <span>${message}</span>
+                <button class="close-notification" onclick="this.parentElement.remove();">&times;</button>
+            `;
+            
+            notificationArea.appendChild(notification);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

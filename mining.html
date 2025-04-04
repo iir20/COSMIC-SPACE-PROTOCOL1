@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CISP Mining - Cosmic Space Protocol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/css/mining-animations.css">
+    
+    <!-- Load Web3 and other dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    
+    <!-- Load application scripts -->
+    <script src="/js/lib/blockchain.js"></script>
+    <script src="/js/components/wallet-sync.js"></script>
+    <script src="/js/components/transaction-handler.js"></script>
+    <script src="/js/components/mining-system.js"></script>
+    <script src="/js/components/mining-animations.js"></script>
+    <script src="/js/components/share-modal.js"></script>
+    
+    <style>
+        .mining-dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .mining-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .mining-card {
+            background: rgba(20, 20, 40, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mining-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .mining-animation-container {
+            position: relative;
+            height: 200px;
+            margin: 1rem 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .mining-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #5b5be6;
+            border-radius: 50%;
+            animation: particleFloat 3s infinite linear;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(200px) translateX(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-20px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .mining-progress {
+            position: relative;
+            height: 6px;
+            background: rgba(91, 91, 230, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .mining-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #5b5be6, #17a2b8);
+            width: 0%;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .mining-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .mining-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-item {
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(91, 91, 230, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-item:hover::after {
+            opacity: 1;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            color: #fff;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .mining-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .power-slider {
+            position: relative;
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: rgba(91, 91, 230, 0.2);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .power-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #5b5be6;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .power-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .power-levels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+
+        .power-level {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8em;
+        }
+
+        .mining-history {
+            margin-top: 2rem;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .history-item:hover {
+            transform: translateX(5px);
+        }
+
+        .history-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .history-icon {
+            color: #5b5be6;
+            font-size: 1.2em;
+        }
+
+        .history-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .history-time {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8em;
+        }
+
+        .history-reward {
+            color: #17a2b8;
+            font-weight: 600;
+        }
+
+        .mining-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+        }
+
+        .status-inactive {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+
+        .mining-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100%) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100%) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #5b5be6;
+            border-radius: 50%;
+            animation: floatUp 3s infinite;
+        }
+
+        .mining-success-flash {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(91, 91, 230, 0.3), rgba(23, 162, 184, 0.3));
+            animation: successFlash 0.5s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes successFlash {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.2);
+            }
+        }
+
+        .value-updated {
+            animation: valueUpdate 0.5s ease-out;
+        }
+
+        @keyframes valueUpdate {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+                color: #5b5be6;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .mining-particles .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: linear-gradient(45deg, #5b5be6, #17a2b8);
+            border-radius: 50%;
+            animation: particleAnimation 3s infinite;
+        }
+
+        @keyframes particleAnimation {
+            0% {
+                transform: translateY(200px) translateX(0) scale(1);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-20px) translateX(100px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .power-slider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: rgba(91, 91, 230, 0.1);
+            border-radius: 3px;
+            transform: translateY(-50%);
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .mining-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mining-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .mining-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body class="mining-page">
+    <header class="page-header">
+        <div class="header-content">
+            <div class="logo">
+                <img src="/assets/logo.svg" alt="CISP Logo">
+                <span>CISP Mining</span>
+            </div>
+            <button id="connect-wallet" class="wallet-button">
+                <i class="fas fa-wallet"></i>
+                <span>Connect Wallet</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="mining-dashboard">
+        <section class="mining-overview">
+            <h1>xCIS Mining Dashboard</h1>
+            <p class="mining-description">
+                Mine xCIS tokens by contributing computational power to the Cosmic Space Protocol network.
+                Upgrade your mining power to increase rewards and efficiency.
+            </p>
+        </section>
+
+        <section class="mining-container">
+            <div class="mining-animation-container" id="mining-animation-container">
+                <div id="mining-particles" class="mining-particles"></div>
+                <div class="mining-progress-container">
+                    <div id="mining-progress-bar" class="mining-progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="mining-stats">
+                <div class="stat-item">
+                    <div class="stat-label">Hash Rate</div>
+                    <div class="stat-value" data-mining="hashrate">0 H/s</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Total Mined</div>
+                    <div class="stat-value" data-mining="total">0.0000 xCIS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Last Reward</div>
+                    <div class="stat-value" data-mining="last-reward">0.0000 xCIS</div>
+                </div>
+            </div>
+
+            <div class="mining-controls">
+                <button id="start-mining" class="mining-button start">
+                    <i class="fas fa-play"></i>
+                    Start Mining
+                </button>
+                <button id="stop-mining" class="mining-button stop" style="display: none;">
+                    <i class="fas fa-stop"></i>
+                    Stop Mining
+                </button>
+                <button id="claim-rewards" class="mining-button claim">
+                    <i class="fas fa-coins"></i>
+                    Claim Rewards
+                </button>
+            </div>
+
+            <div class="power-slider-container">
+                <label for="power-slider">Mining Power</label>
+                <input type="range" id="power-slider" class="power-slider" min="1" max="100" value="50">
+                <div class="power-level">
+                    <span class="power-value">50</span>
+                    <button id="upgrade-power" class="mining-button upgrade">
+                        <i class="fas fa-bolt"></i>
+                        Upgrade Power
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="mining-info">
+            <div class="info-card">
+                <h3>Mining Information</h3>
+                <ul>
+                    <li>
+                        <i class="fas fa-info-circle"></i>
+                        Mining rewards are distributed in xCIS tokens
+                    </li>
+                    <li>
+                        <i class="fas fa-exchange-alt"></i>
+                        xCIS can be converted to CIS at any time
+                    </li>
+                    <li>
+                        <i class="fas fa-chart-line"></i>
+                        Higher mining power increases reward chances
+                    </li>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        Rewards can be claimed every 24 hours
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Cosmic Space Protocol. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-telegram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialize systems
+            await window.cispChain.init();
+            await window.walletSync.init();
+            await window.miningSystem.init();
+
+            // Setup UI event listeners
+            const connectButton = document.getElementById('connect-wallet');
+            const startButton = document.getElementById('start-mining');
+            const stopButton = document.getElementById('stop-mining');
+            const claimButton = document.getElementById('claim-rewards');
+            const upgradeButton = document.getElementById('upgrade-power');
+            const powerSlider = document.getElementById('power-slider');
+
+            connectButton.addEventListener('click', async () => {
+                try {
+                    await window.walletSync.connect();
+                    connectButton.innerHTML = `
+                        <i class="fas fa-wallet"></i>
+                        <span>${window.walletSync.currentAccount.slice(0, 6)}...${window.walletSync.currentAccount.slice(-4)}</span>
+                    `;
+                } catch (error) {
+                    console.error('Failed to connect wallet:', error);
+                }
+            });
+
+            startButton.addEventListener('click', async () => {
+                try {
+                    await window.miningSystem.startMining();
+                    startButton.style.display = 'none';
+                    stopButton.style.display = 'inline-flex';
+                } catch (error) {
+                    console.error('Failed to start mining:', error);
+                }
+            });
+
+            stopButton.addEventListener('click', async () => {
+                try {
+                    await window.miningSystem.stopMining();
+                    stopButton.style.display = 'none';
+                    startButton.style.display = 'inline-flex';
+                } catch (error) {
+                    console.error('Failed to stop mining:', error);
+                }
+            });
+
+            claimButton.addEventListener('click', async () => {
+                try {
+                    await window.miningSystem.claimRewards();
+                } catch (error) {
+                    console.error('Failed to claim rewards:', error);
+                }
+            });
+
+            upgradeButton.addEventListener('click', async () => {
+                try {
+                    await window.miningSystem.upgradeMiningPower();
+                } catch (error) {
+                    console.error('Failed to upgrade mining power:', error);
+                }
+            });
+
+            powerSlider.addEventListener('input', (e) => {
+                const powerValue = document.querySelector('.power-value');
+                powerValue.textContent = e.target.value;
+            });
+
+            // Update UI based on wallet connection
+            if (window.walletSync.isConnected) {
+                connectButton.innerHTML = `
+                    <i class="fas fa-wallet"></i>
+                    <span>${window.walletSync.currentAccount.slice(0, 6)}...${window.walletSync.currentAccount.slice(-4)}</span>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+/* Balance Display Styles
+ * Consistent styles for token balances across all pages
+ */
+
+.balance-container {
+  background: rgba(13, 27, 72, 0.7);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), 0 0 15px rgba(149, 128, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(149, 128, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.balance-container:hover {
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2), 0 0 20px rgba(149, 128, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.balance-row:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.token-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  border-radius: 50%;
+}
+
+.token-name {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+}
+
+.balance-value {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(149, 128, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+.balance-value.highlight {
+  animation: pulse 2s ease-out;
+}
+
+.balance-value.positive {
+  color: #4CAF50;
+}
+
+.balance-value.negative {
+  color: #F44336;
+}
+
+.token-cis .balance-value {
+  color: #9580FF;
+}
+
+.token-xcis .balance-value {
+  color: #64FFDA;
+}
+
+.token-total .balance-value {
+  color: #FF9580;
+  font-size: 1.2rem;
+}
+
+.balance-usd {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 4px;
+}
+
+.balance-change {
+  font-size: 0.8rem;
+  margin-left: 8px;
+}
+
+.balance-change.up {
+  color: #4CAF50;
+}
+
+.balance-change.down {
+  color: #F44336;
+}
+
+/* Token Badge Styles */
+.token-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-right: 10px;
+}
+
+.token-badge.cis {
+  background-color: rgba(149, 128, 255, 0.2);
+  color: #9580FF;
+  border: 1px solid rgba(149, 128, 255, 0.3);
+}
+
+.token-badge.xcis {
+  background-color: rgba(100, 255, 218, 0.2);
+  color: #64FFDA;
+  border: 1px solid rgba(100, 255, 218, 0.3);
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .balance-container {
+    padding: 12px;
+  }
+  
+  .token-name {
+    font-size: 0.9rem;
+  }
+  
+  .balance-value {
+    font-size: 1rem;
+  }
+  
+  .token-total .balance-value {
+    font-size: 1.1rem;
+  }
+} 

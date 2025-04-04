@@ -1,0 +1,262 @@
+/* Mining Animations CSS */
+:root {
+    --mining-primary: #4a90e2;
+    --mining-success: #2ecc71;
+    --mining-particle: rgba(74, 144, 226, 0.6);
+    --mining-glow: rgba(74, 144, 226, 0.2);
+    --mining-progress: linear-gradient(90deg, #4a90e2, #2ecc71);
+}
+
+/* Mining Animation Container */
+.mining-animation-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.mining-animation-container.mining-active {
+    box-shadow: 0 0 20px var(--mining-glow);
+}
+
+/* Mining Particles */
+.mining-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.mining-particle {
+    position: absolute;
+    background: var(--mining-particle);
+    border-radius: 50%;
+    opacity: 0.6;
+    transform: translateY(0);
+    transition: transform 0.5s ease-out;
+    animation: particleFade 2s infinite;
+}
+
+@keyframes particleFade {
+    0% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+}
+
+/* Mining Progress Bar */
+.mining-progress-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.mining-progress-bar {
+    height: 100%;
+    width: 0;
+    background: var(--mining-progress);
+    transition: width 0.1s linear;
+    position: relative;
+    overflow: hidden;
+}
+
+.mining-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* Mining Success Flash */
+.mining-success-flash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--mining-success);
+    opacity: 0;
+    pointer-events: none;
+    animation: successFlash 1s ease-out;
+}
+
+@keyframes successFlash {
+    0% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.2);
+    }
+}
+
+/* Mining Stats */
+.mining-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Value Update Animation */
+.value-updated {
+    animation: valueUpdate 1s ease;
+}
+
+@keyframes valueUpdate {
+    0% {
+        transform: scale(1);
+        color: var(--mining-primary);
+    }
+    50% {
+        transform: scale(1.1);
+        color: var(--mining-success);
+    }
+    100% {
+        transform: scale(1);
+        color: #fff;
+    }
+}
+
+/* Mining Controls */
+.mining-controls {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.mining-button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--mining-primary);
+    color: white;
+}
+
+.mining-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--mining-glow);
+}
+
+.mining-button:active {
+    transform: translateY(0);
+}
+
+.mining-button.stop {
+    background: #e74c3c;
+}
+
+/* Power Slider */
+.power-slider-container {
+    margin-top: 1rem;
+}
+
+.power-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.power-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--mining-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px var(--mining-glow);
+}
+
+.power-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mining-animation-container {
+        height: 150px;
+    }
+
+    .mining-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .mining-controls {
+        flex-direction: column;
+    }
+
+    .mining-button {
+        width: 100%;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .stat-item {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .mining-button {
+        background: var(--mining-primary);
+    }
+} 

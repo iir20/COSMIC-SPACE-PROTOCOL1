@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Minting - Cosmic Space Protocol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="nft.css">
+</head>
+<body class="cosmic-theme">
+    <!-- Background Elements -->
+    <div class="cosmic-background"></div>
+    <div id="stars" class="stars"></div>
+    <div id="nebula" class="nebula"></div>
+    <div id="aurora" class="aurora"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="cosmic-loading-overlay">
+        <div class="cosmic-spinner"></div>
+        <p>Loading NFT Minting...</p>
+    </div>
+
+    <div class="container">
+        <header class="main-header">
+            <div class="header-content">
+                <h1 class="cosmic-title">NFT Minting</h1>
+                <p class="header-subtitle">Create your unique Cosmic NFTs</p>
+            </div>
+
+            <nav class="cosmic-nav">
+                <a href="nft-collection.html" class="cosmic-nav-item">
+                    <i class="fas fa-images"></i>
+                    <span>My Collection</span>
+                </a>
+                <a href="nft-marketplace.html" class="cosmic-nav-item">
+                    <i class="fas fa-store"></i>
+                    <span>Marketplace</span>
+                </a>
+                <a href="nft-staking.html" class="cosmic-nav-item">
+                    <i class="fas fa-layer-group"></i>
+                    <span>NFT Staking</span>
+                </a>
+            </nav>
+
+            <div class="wallet-section">
+                <button class="cosmic-button primary wallet-connect" id="wallet-connect-btn">
+                    <i class="fas fa-wallet"></i>
+                    <span id="wallet-address">Connect Wallet</span>
+                </button>
+                <div class="wallet-info" style="display: none;">
+                    <div class="balance-item">
+                        <i class="fas fa-coins"></i>
+                        <span id="xcis-balance">0.00</span>
+                        <span class="currency">xCIS</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="minting-dashboard">
+            <div class="cosmic-grid">
+                <!-- Minting Card -->
+                <div class="cosmic-card minting-card animate-on-scroll">
+                    <div class="card-header">
+                        <h2 class="card-title">Random NFT Minting</h2>
+                    </div>
+                    <div class="minting-content">
+                        <div class="nft-preview">
+                            <div class="preview-placeholder">
+                                <i class="fas fa-cube"></i>
+                                <p>Your NFT will be revealed after minting</p>
+                            </div>
+                        </div>
+                        <div class="minting-info">
+                            <div class="info-group">
+                                <label>NFT Type</label>
+                                <select id="nft-type" class="cosmic-select">
+                                    <option value="weapon">Cosmic Weapon</option>
+                                    <option value="armor">Cosmic Armor</option>
+                                    <option value="spaceship">Spaceship</option>
+                                    <option value="companion">Companion</option>
+                                </select>
+                            </div>
+                            <div class="info-group">
+                                <label>Rarity Chances</label>
+                                <div class="rarity-chances">
+                                    <div class="rarity-item">
+                                        <span class="rarity common">Common</span>
+                                        <span>50%</span>
+                                    </div>
+                                    <div class="rarity-item">
+                                        <span class="rarity uncommon">Uncommon</span>
+                                        <span>30%</span>
+                                    </div>
+                                    <div class="rarity-item">
+                                        <span class="rarity rare">Rare</span>
+                                        <span>15%</span>
+                                    </div>
+                                    <div class="rarity-item">
+                                        <span class="rarity epic">Epic</span>
+                                        <span>4%</span>
+                                    </div>
+                                    <div class="rarity-item">
+                                        <span class="rarity legendary">Legendary</span>
+                                        <span>1%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-group">
+                                <label>Minting Cost</label>
+                                <div class="cost-display">
+                                    <div class="cost-item">
+                                        <span class="cost-label">Base Cost:</span>
+                                        <span class="cost-value">100 xCIS</span>
+                                    </div>
+                                    <div class="cost-item">
+                                        <span class="cost-label">Gas Fee:</span>
+                                        <span class="cost-value" id="gas-fee">5 xCIS</span>
+                                    </div>
+                                    <div class="cost-item total">
+                                        <span class="cost-label">Total Cost:</span>
+                                        <span class="cost-value" id="total-cost">105 xCIS</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="mint-button" class="cosmic-button primary" onclick="mintNFT()">
+                                <i class="fas fa-magic"></i>
+                                Mint NFT
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recently Minted -->
+                <div class="cosmic-card history-card animate-on-scroll">
+                    <div class="card-header">
+                        <h2 class="card-title">Recently Minted</h2>
+                    </div>
+                    <div class="minting-history" id="minting-history">
+                        <!-- History items will be added here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="cosmic-footer">
+            <p>&copy; 2024 COSMIC Space Protocol. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- NFT Reveal Modal -->
+    <div id="reveal-modal" class="cosmic-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>NFT Revealed!</h2>
+                <button class="close-modal" onclick="closeModal('reveal-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="reveal-animation">
+                    <div class="reveal-box">
+                        <img id="revealed-nft" src="" alt="Revealed NFT">
+                    </div>
+                </div>
+                <div class="nft-details">
+                    <h3 id="revealed-name">-</h3>
+                    <div class="revealed-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Rarity</span>
+                            <span id="revealed-rarity" class="stat-value">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Power</span>
+                            <span id="revealed-power" class="stat-value">-</span>
+                        </div>
+                    </div>
+                    <div class="revealed-attributes" id="revealed-attributes">
+                        <!-- Attributes will be added here -->
+                    </div>
+                </div>
+                <div class="reveal-actions">
+                    <button class="cosmic-button primary" onclick="viewInCollection()">
+                        <i class="fas fa-images"></i>
+                        View in Collection
+                    </button>
+                    <button class="cosmic-button secondary" onclick="mintAnother()">
+                        <i class="fas fa-plus"></i>
+                        Mint Another
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="blockchain.js"></script>
+    <script src="cisp-wallet.js"></script>
+    <script src="wallet-config.js"></script>
+    <script src="wallet-manager.js"></script>
+    <script src="notifications.js"></script>
+    <script src="nft-system.js"></script>
+    <script src="cosmic-ui.js"></script>
+    <script src="wallet-sync.js"></script>
+    <script src="cosmic-functions.js"></script>
+    <script src="cosmic-integration.js"></script>
+    <script src="enhanced-cosmic-effects.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            loadingOverlay.style.display = 'flex';
+
+            try {
+                // Initialize notification system
+                if (!window.notifications) {
+                    console.warn('Notification system not found, creating simple fallback');
+                    window.notifications = createSimpleNotificationSystem();
+                }
+
+                // Initialize wallet system with retry
+                let retryCount = 0;
+                const maxRetries = 3;
+                
+                while (!window.cispWallet && retryCount < maxRetries) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    retryCount++;
+                }
+
+                if (!window.cispWallet) {
+                    console.warn('Wallet system not available, minting will be disabled');
+                    document.getElementById('mint-button').disabled = true;
+                }
+
+                // Initialize wallet
+                try {
+                    await window.cispWallet.init();
+                    const wallet = window.cispWallet.getCurrentWallet();
+                    if (wallet) {
+                        document.getElementById('wallet-address').textContent = shortenAddress(wallet);
+                        document.querySelector('.wallet-info').style.display = 'flex';
+                        document.getElementById('wallet-connect-btn').style.display = 'none';
+                        await updateBalance();
+                    }
+                } catch (walletError) {
+                    console.warn('Wallet initialization error:', walletError);
+                }
+
+                // Setup event listeners
+                setupEventListeners();
+                
+                // Load minting history
+                await loadMintingHistory();
+
+            } catch (error) {
+                console.error('Error initializing minting page:', error);
+                if (window.notifications) {
+                    window.notifications.show('Error initializing minting system', 'error');
+                }
+            } finally {
+                loadingOverlay.style.display = 'none';
+            }
+        });
+
+        function setupEventListeners() {
+            // Wallet connect button
+            const walletConnectBtn = document.getElementById('wallet-connect-btn');
+            if (walletConnectBtn) {
+                walletConnectBtn.addEventListener('click', async () => {
+                    try {
+                        if (window.cispWallet) {
+                            await window.cispWallet.connect();
+                            const wallet = window.cispWallet.getCurrentWallet();
+                            if (wallet) {
+                                document.getElementById('wallet-address').textContent = shortenAddress(wallet);
+                                document.querySelector('.wallet-info').style.display = 'flex';
+                                document.getElementById('wallet-connect-btn').style.display = 'none';
+                                await updateBalance();
+                                document.getElementById('mint-button').disabled = false;
+                            }
+                            if (window.notifications) {
+                                window.notifications.show('Wallet connected successfully', 'success');
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error connecting wallet:', error);
+                        if (window.notifications) {
+                            window.notifications.show('Failed to connect wallet', 'error');
+                        }
+                    }
+                });
+            }
+
+            // NFT type selection
+            const nftTypeSelect = document.getElementById('nft-type');
+            if (nftTypeSelect) {
+                nftTypeSelect.addEventListener('change', updateGasFee);
+            }
+
+            // Modal close buttons
+            document.querySelectorAll('.close-modal').forEach(button => {
+                button.addEventListener('click', () => {
+                    const modal = button.closest('.cosmic-modal');
+                    if (modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+
+            // Close modals on outside click
+            document.querySelectorAll('.cosmic-modal').forEach(modal => {
+                modal.addEventListener('click', (event) => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+
+            // Escape key to close modals
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    document.querySelectorAll('.cosmic-modal').forEach(modal => {
+                        modal.style.display = 'none';
+                    });
+                }
+            });
+        }
+
+        async function updateBalance() {
+            try {
+                const balance = await window.cispWallet.getBalance('xcis');
+                document.getElementById('xcis-balance').textContent = formatNumber(balance);
+            } catch (error) {
+                console.error('Error updating balance:', error);
+            }
+        }
+
+        function updateGasFee() {
+            const nftType = document.getElementById('nft-type').value;
+            let gasFee;
+            
+            // Calculate gas fee based on NFT type
+            switch (nftType) {
+                case 'weapon':
+                    gasFee = 5;
+                    break;
+                case 'armor':
+                    gasFee = 6;
+                    break;
+                case 'spaceship':
+                    gasFee = 8;
+                    break;
+                case 'companion':
+                    gasFee = 4;
+                    break;
+                default:
+                    gasFee = 5;
+            }
+
+            document.getElementById('gas-fee').textContent = `${gasFee} xCIS`;
+            document.getElementById('total-cost').textContent = `${100 + gasFee} xCIS`;
+        }
+
+        async function mintNFT() {
+            try {
+                if (!window.cispWallet || !window.cispWallet.getCurrentWallet()) {
+                    if (window.notifications) {
+                        window.notifications.show('Please connect your wallet first', 'warning');
+                    }
+                    return;
+                }
+
+                const nftType = document.getElementById('nft-type').value;
+                const totalCost = parseInt(document.getElementById('total-cost').textContent);
+                const balance = await window.cispWallet.getBalance('xcis');
+
+                if (balance < totalCost) {
+                    if (window.notifications) {
+                        window.notifications.show('Insufficient xCIS balance for minting and gas fee', 'error');
+                    }
+                    return;
+                }
+
+                // Disable mint button and show loading
+                const mintButton = document.getElementById('mint-button');
+                mintButton.disabled = true;
+                mintButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Minting...';
+
+                // Perform minting
+                const result = await window.nftSystem.mintNFT(nftType);
+
+                // Show reveal animation
+                await revealNFT(result);
+
+                // Update balance and history
+                await updateBalance();
+                await loadMintingHistory();
+
+                if (window.notifications) {
+                    window.notifications.show('NFT minted successfully!', 'success');
+                }
+
+            } catch (error) {
+                console.error('Error minting NFT:', error);
+                if (window.notifications) {
+                    window.notifications.show('Failed to mint NFT: ' + error.message, 'error');
+                }
+            } finally {
+                // Reset mint button
+                const mintButton = document.getElementById('mint-button');
+                mintButton.disabled = false;
+                mintButton.innerHTML = '<i class="fas fa-magic"></i> Mint NFT';
+            }
+        }
+
+        async function revealNFT(nft) {
+            const modal = document.getElementById('reveal-modal');
+            const revealedImg = document.getElementById('revealed-nft');
+            const revealedName = document.getElementById('revealed-name');
+            const revealedRarity = document.getElementById('revealed-rarity');
+            const revealedPower = document.getElementById('revealed-power');
+            const revealedAttributes = document.getElementById('revealed-attributes');
+
+            // Set NFT details
+            revealedImg.src = nft.image;
+            revealedName.textContent = nft.name;
+            revealedRarity.textContent = nft.rarity;
+            revealedRarity.className = `stat-value ${nft.rarity.toLowerCase()}`;
+            revealedPower.textContent = nft.power;
+
+            // Set attributes
+            revealedAttributes.innerHTML = '';
+            Object.entries(nft.attributes).forEach(([key, value]) => {
+                revealedAttributes.innerHTML += `
+                    <div class="attribute">
+                        <span class="attribute-name">${key}</span>
+                        <span class="attribute-value">${value}</span>
+                    </div>
+                `;
+            });
+
+            // Show modal with animation
+            modal.style.display = 'flex';
+            document.querySelector('.reveal-box').classList.add('reveal-animation');
+        }
+
+        async function loadMintingHistory() {
+            try {
+                const history = await window.nftSystem.getMintingHistory();
+                const historyContainer = document.getElementById('minting-history');
+                
+                if (!history || history.length === 0) {
+                    historyContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-scroll"></i>
+                            <p>No minting history yet</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                historyContainer.innerHTML = '';
+                history.slice(0, 5).forEach(item => {
+                    historyContainer.innerHTML += `
+                        <div class="history-item">
+                            <div class="history-nft">
+                                <img src="${item.image}" alt="${item.name}">
+                                <span class="history-rarity ${item.rarity.toLowerCase()}">${item.rarity}</span>
+                            </div>
+                            <div class="history-info">
+                                <h4>${item.name}</h4>
+                                <span class="history-time">${formatTimeAgo(item.timestamp)}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error loading minting history:', error);
+            }
+        }
+
+        function viewInCollection() {
+            window.location.href = 'nft-collection.html';
+        }
+
+        function mintAnother() {
+            closeModal('reveal-modal');
+            document.getElementById('mint-button').focus();
+        }
+
+        function formatNumber(num) {
+            return parseFloat(num).toFixed(2);
+        }
+
+        function formatTimeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+            
+            if (seconds < 60) return 'just now';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `${minutes}m ago`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours}h ago`;
+            const days = Math.floor(hours / 24);
+            return `${days}d ago`;
+        }
+
+        function shortenAddress(address) {
+            if (!address) return 'Unknown';
+            
+            // If address is an object with address property (wallet object)
+            if (typeof address === 'object' && address.address) {
+                address = address.address;
+            }
+            
+            // Ensure address is a string
+            if (typeof address !== 'string') {
+                console.warn('Invalid address format:', address);
+                return 'Invalid Address';
+            }
+            
+            return address.slice(0, 6) + '...' + address.slice(-4);
+        }
+    </script>
+</body>
+</html> 
