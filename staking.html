@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFT Staking - Cosmic Space Protocol</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="nft.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #2b1055, #7597de);
+      background-size: 400% 400%;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      animation: gradientShift 15s infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      text-align: center;
+      padding: 30px;
+      background: rgba(30, 30, 60, 0.8);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 90%;
+      max-width: 450px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      margin: 0;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .wallet-display {
+      background: rgba(30, 30, 60, 0.7);
+      color: white;
+      border-radius: 50px;
+      padding: 10px 20px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0, 150, 255, 0.3);
+    }
+
+    .wallet-display i {
+      color: #00ffcc;
+    }
+
+    .balance-section {
+      margin: 20px 0;
+      padding: 20px;
+      background: rgba(20, 20, 40, 0.6);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .balance-title {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #00c6ff;
+    }
+
+    .balance-cards {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .balance-card {
+      background: rgba(30, 30, 60, 0.7);
+      padding: 15px;
+      border-radius: 10px;
+      min-width: 120px;
+      transition: transform 0.3s ease;
+    }
+
+    .balance-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .balance-label {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 5px;
+    }
+
+    .balance-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #00ffcc;
+    }
+
+    .staking-section {
+      margin: 20px 0;
+    }
+
+    .staking-input {
+      width: 80%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1.1rem;
+      text-align: center;
+      margin: 0 auto 20px;
+      display: block;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .staking-input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 198, 255, 0.5);
+    }
+
+    .staking-btn {
+      width: 80%;
+      padding: 15px;
+      margin: 10px auto;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
+      display: block;
+      position: relative; /* Added for loading indicator */
+    }
+
+    .staking-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 114, 255, 0.6);
+    }
+
+    .loading-indicator {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none; /* Hidden by default */
+    }
+
+    .staking-btn:disabled {
+      background: linear-gradient(135deg, #666, #999);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .staking-btn.unstake {
+      background: linear-gradient(135deg, #ff7eb3, #ff758c);
+      box-shadow: 0 5px 15px rgba(255, 120, 140, 0.4);
+    }
+
+    .staking-btn.unstake:hover {
+      box-shadow: 0 8px 25px rgba(255, 120, 140, 0.6);
+    }
+
+    .staking-info {
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(20, 20, 40, 0.6);
+      border-radius: 15px;
+    }
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .info-item:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .info-value {
+      font-weight: bold;
+      color: #00ffcc;
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 50px;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateX(-5px);
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      max-width: 300px;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.success { 
+      background-color: #2ecc71; 
+      border-left: 5px solid #27ae60;
+    }
+
+    .toast.error { 
+      background-color: #e74c3c; 
+      border-left: 5px solid #c0392b;
+    }
+
+    .toast.info { 
+      background-color: #3498db; 
+      border-left: 5px solid #2980b9;
+    }
+
+    .staking-dashboard {
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .staking-header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .staking-header h1 {
+      font-size: 2.5em;
+      color: #fff;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(91, 91, 230, 0.5);
+    }
+
+    .staking-header p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1em;
+    }
+
+    .staking-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: rgba(20, 20, 40, 0.9);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #5b5be6, #17a2b8);
+    }
+
+    .stat-card i {
+      font-size: 2.5em;
+      background: linear-gradient(45deg, #5b5be6, #17a2b8);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+    }
+
+    .stat-info {
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-label {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1em;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .stat-value {
+      color: #fff;
+      font-size: 1.8em;
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(91, 91, 230, 0.3);
+    }
+
+    .rewards-section {
+      background: rgba(23, 162, 184, 0.1);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 40px;
+      border: 1px solid rgba(23, 162, 184, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rewards-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(91, 91, 230, 0.1), rgba(23, 162, 184, 0.1));
+      z-index: 0;
+    }
+
+    .rewards-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .rewards-header h2 {
+      color: #17a2b8;
+      font-size: 1.8em;
+      margin: 0;
+      text-shadow: 0 0 10px rgba(23, 162, 184, 0.3);
+    }
+
+    .claim-button {
+      background: linear-gradient(45deg, #17a2b8, #5b5be6);
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.1em;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .claim-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3);
+    }
+
+    .claim-button:disabled {
+      background: linear-gradient(45deg, rgba(23, 162, 184, 0.5), rgba(91, 91, 230, 0.5));
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .claim-button i {
+      font-size: 1.2em;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .staking-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .rewards-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+
+      .claim-button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .staking-pools {
+        margin-bottom: 40px;
+    }
+
+    .pool-card {
+        background: rgba(20, 20, 40, 0.9);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .pool-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, rgba(91, 91, 230, 0.1), rgba(23, 162, 184, 0.1));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .pool-card:hover::before {
+        opacity: 1;
+    }
+
+    .pool-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .pool-title {
+        color: #fff;
+        font-size: 1.5em;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pool-title i {
+        font-size: 1.2em;
+        color: #ffd700;
+    }
+
+    .pool-apr {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 1.1em;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .pool-apr i {
+        font-size: 0.9em;
+    }
+
+    .pool-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .pool-stat {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        transition: transform 0.2s ease;
+    }
+
+    .pool-stat:hover {
+        transform: translateY(-3px);
+    }
+
+    .pool-stat-label {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9em;
+        margin-bottom: 8px;
+    }
+
+    .pool-stat-value {
+        color: #fff;
+        font-size: 1.3em;
+        font-weight: 600;
+    }
+
+    .staked-nfts {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 20px;
+        margin-top: 25px;
+        position: relative;
+    }
+
+    .staked-nft {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .staked-nft:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .staked-nft img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .staked-nft:hover img {
+        transform: scale(1.05);
+    }
+
+    .staked-nft-info {
+        padding: 15px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+    }
+
+    .staked-nft-name {
+        color: #fff;
+        font-size: 1.1em;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .staked-nft-time {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9em;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .staked-nft-time i {
+        font-size: 0.9em;
+        color: #17a2b8;
+    }
+
+    .unstake-button {
+        background: linear-gradient(45deg, #dc3545, #fd7e14);
+        color: white;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1em;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .unstake-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+    }
+
+    .unstake-button i {
+        font-size: 1.1em;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        margin: 20px 0;
+    }
+
+    .empty-state i {
+        font-size: 3em;
+        color: rgba(255, 255, 255, 0.3);
+        margin-bottom: 15px;
+    }
+
+    .empty-state p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.1em;
+    }
+
+    @media (max-width: 768px) {
+        .pool-header {
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .pool-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .staked-nfts {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+    }
+  </style>
+</head>
+<body class="cosmic-theme">
+  <!-- Background Elements -->
+  <div class="cosmic-background"></div>
+  <div id="stars" class="stars"></div>
+  <div id="nebula" class="nebula"></div>
+  <div id="aurora" class="aurora"></div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="cosmic-loading-overlay">
+    <div class="cosmic-spinner"></div>
+    <p>Loading Staking Dashboard...</p>
+  </div>
+
+  <div class="container">
+    <header class="main-header">
+      <div class="header-content">
+        <h1 class="cosmic-title">NFT Staking</h1>
+        <p class="header-subtitle">Earn rewards by staking your Cosmic Space NFTs</p>
+      </div>
+
+      <nav class="cosmic-nav">
+        <a href="nft-marketplace.html" class="cosmic-nav-item">
+          <i class="fas fa-store"></i>
+          <span>Marketplace</span>
+        </a>
+        <a href="nft-collection.html" class="cosmic-nav-item">
+          <i class="fas fa-images"></i>
+          <span>My Collection</span>
+        </a>
+        <a href="nft-mint.html" class="cosmic-nav-item">
+          <i class="fas fa-magic"></i>
+          <span>Mint NFT</span>
+        </a>
+      </nav>
+
+      <div class="wallet-section">
+        <button class="cosmic-button primary wallet-connect" id="wallet-connect-btn">
+          <i class="fas fa-wallet"></i>
+          <span>Connect Wallet</span>
+        </button>
+        <div class="wallet-info" style="display: none;">
+          <div class="balance-item">
+            <i class="fas fa-coins"></i>
+            <span id="xcis-balance">0.00</span>
+            <span class="currency">xCIS</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="staking-dashboard">
+      <!-- Staking Header -->
+      <div class="staking-header">
+        <h1>Stake Your NFTs</h1>
+        <p>Earn passive income by staking your Cosmic Space NFTs in our high-yield pools</p>
+      </div>
+
+      <!-- Staking Stats -->
+      <div class="staking-stats">
+        <div class="stat-card stats-card animate-on-scroll">
+          <div class="card-header">
+            <h2 class="card-title">Staking Overview</h2>
+            <div class="refresh-button" onclick="refreshStats()">
+              <i class="fas fa-sync-alt"></i>
+            </div>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <i class="fas fa-layer-group"></i>
+              <div class="stat-info">
+                <span class="stat-label">Total Staked</span>
+                <span class="stat-value" id="total-staked">0 xCIS</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-chart-line"></i>
+              <div class="stat-info">
+                <span class="stat-label">APY</span>
+                <span class="stat-value" id="current-apy">12%</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-coins"></i>
+              <div class="stat-info">
+                <span class="stat-label">Rewards Earned</span>
+                <span class="stat-value" id="rewards-earned">0 xCIS</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-clock"></i>
+              <div class="stat-info">
+                <span class="stat-label">Lock Period</span>
+                <span class="stat-value" id="lock-period">7 days</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rewards Card -->
+        <div class="stat-card rewards-card animate-on-scroll">
+          <div class="card-header">
+            <h2 class="card-title">Rewards</h2>
+          </div>
+          <div class="rewards-content">
+            <div class="rewards-circle">
+              <div class="rewards-amount" id="pending-rewards">0.00</div>
+              <div class="rewards-label">xCIS Pending</div>
+            </div>
+            <div class="rewards-info">
+              <div class="info-item">
+                <span>Daily Rewards</span>
+                <span id="daily-rewards">0.00 xCIS</span>
+              </div>
+              <div class="info-item">
+                <span>Next Reward</span>
+                <span id="next-reward">12h 30m</span>
+              </div>
+              <div class="info-item">
+                <span>Total Claimed</span>
+                <span id="total-claimed">0.00 xCIS</span>
+              </div>
+            </div>
+            <button class="cosmic-button primary claim-button" onclick="claimRewards()" disabled>
+              <span class="loading-indicator" id="claim-loading" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i> 
+              </span>
+              <i class="fas fa-gift"></i>
+              Claim Rewards
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Staking Form -->
+      <div class="cosmic-card staking-card animate-on-scroll">
+        <div class="card-header">
+          <h2 class="card-title">Stake Tokens</h2>
+        </div>
+        <div class="staking-form">
+          <div class="form-group">
+            <label>Amount to Stake</label>
+            <div class="token-select">
+              <select id="stake-token" class="cosmic-select">
+                <option value="xcis">xCIS</option>
+                <option value="cis">CIS</option>
+              </select>
+              <input type="number" id="stake-amount" class="cosmic-input" placeholder="0.00" min="0" step="0.01">
+              <button class="max-button" onclick="setMaxAmount()">MAX</button>
+            </div>
+            <span class="balance-display" id="available-balance">Available: 0.00</span>
+          </div>
+
+          <div class="staking-info">
+            <div class="info-item">
+              <span>Lock Period</span>
+              <select id="lock-duration" class="cosmic-select">
+                <option value="7">7 days (12% APY)</option>
+                <option value="30">30 days (15% APY)</option>
+                <option value="90">90 days (18% APY)</option>
+                <option value="180">180 days (22% APY)</option>
+              </select>
+            </div>
+            <div class="info-item">
+              <span>Estimated Daily Rewards</span>
+              <span id="estimated-rewards">0.00 xCIS</span>
+            </div>
+            <div class="info-item">
+              <span>Network Fee</span>
+              <span id="network-fee">~ 0.001 ETH</span>
+            </div>
+          </div>
+
+          <div class="staking-actions">
+            <button id="stake-button" class="cosmic-button primary" onclick="initiateStaking()" disabled>
+              <span class="loading-indicator" id="stake-loading" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i> 
+              </span>
+              <i class="fas fa-lock"></i>
+              Stake Tokens
+            </button>
+            <button id="unstake-button" class="cosmic-button secondary" onclick="initiateUnstaking()" disabled>
+              <i class="fas fa-unlock"></i>
+              Unstake Tokens
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Stakes -->
+      <div class="cosmic-card stakes-card animate-on-scroll">
+        <div class="card-header">
+          <h2 class="card-title">Active Stakes</h2>
+        </div>
+        <div class="stakes-grid" id="active-stakes">
+          <!-- Stakes will be dynamically added here -->
+          <div class="empty-stakes">
+            <i class="fas fa-layer-group"></i>
+            <p>No active stakes</p>
+            <button class="cosmic-button primary" onclick="showStakingForm()">
+              Start Staking
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Staking Pools Section -->
+      <section class="staking-pools">
+        <div class="pool-card legendary-pool">
+          <div class="pool-header">
+            <div class="pool-title">
+              <i class="fas fa-crown"></i>
+              Legendary Pool
+            </div>
+            <div class="pool-apr">
+              <i class="fas fa-chart-line"></i>
+              APR: 120%
+            </div>
+          </div>
+          <div class="pool-stats">
+            <div class="pool-stat">
+              <div class="pool-stat-label">Total Staked</div>
+              <div class="pool-stat-value" id="legendary-staked">0</div>
+            </div>
+            <div class="pool-stat">
+              <div class="pool-stat-label">Your Staked</div>
+              <div class="pool-stat-value" id="legendary-your-staked">0</div>
+            </div>
+            <div class="pool-stat">
+              <div class="pool-stat-label">Lock Period</div>
+              <div class="pool-stat-value">30 days</div>
+            </div>
+          </div>
+          <div class="staked-nfts" id="legendary-nfts">
+            <!-- Staked NFTs will be loaded here -->
+          </div>
+        </div>
+
+        <div class="pool-card epic-pool">
+          <div class="pool-header">
+            <div class="pool-title">
+              <i class="fas fa-gem"></i>
+              Epic Pool
+            </div>
+            <div class="pool-apr">
+              <i class="fas fa-chart-line"></i>
+              APR: 90%
+            </div>
+          </div>
+          <div class="pool-stats">
+            <div class="pool-stat">
+              <div class="pool-stat-label">Total Staked</div>
+              <div class="pool-stat-value" id="epic-staked">0</div>
+            </div>
+            <div class="pool-stat">
+              <div class="pool-stat-label">Your Staked</div>
+              <div class="pool-stat-value" id="epic-your-staked">0</div>
+            </div>
+            <div class="pool-stat">
+              <div class="pool-stat-label">Lock Period</div>
+              <div class="pool-stat-value">14 days</div>
+            </div>
+          </div>
+          <div class="staked-nfts" id="epic-nfts">
+            <!-- Staked NFTs will be loaded here -->
+          </div>
+        </div>
+
+        <div class="pool-card rare-pool">
+          <div class="pool-header">
+            <div class="pool-title">
+              <i class="fas fa-star"></i>
+              Rare Pool
+            </div>
+            <div class="pool-apr">
+              <i class="fas fa-chart-line"></i>
+              APR: 60%
+            </div>
+          </div>
+          <div class="pool-stats">
+            <div class="pool-stat">
+              <div class="pool-stat-label">Total Staked</div>
+              <div class="pool-stat-value" id="rare-staked">0</div>
+            </div>
+            <div class="pool-stat">
+              <div class="pool-stat-label">Your Staked</div>
+              <div class="pool-stat-value" id="rare-your-staked">0</div>
+            </div>
+            <div class="pool-stat">
+              <div class="pool-stat-label">Lock Period</div>
+              <div class="pool-stat-value">7 days</div>
+            </div>
+          </div>
+          <div class="staked-nfts" id="rare-nfts">
+            <!-- Staked NFTs will be loaded here -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="cosmic-footer">
+      <p>&copy; 2024 COSMIC Space Protocol. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <!-- Staking Confirmation Modal -->
+  <div id="staking-modal" class="cosmic-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Confirm Staking</h2>
+        <button class="close-modal" onclick="closeModal('staking-modal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="confirmation-details">
+          <div class="detail-item">
+            <span>Amount</span>
+            <span id="confirm-amount">0.00 xCIS</span>
+          </div>
+          <div class="detail-item">
+            <span>Lock Period</span>
+            <span id="confirm-period">7 days</span>
+          </div>
+          <div class="detail-item">
+            <span>APY</span>
+            <span id="confirm-apy">12%</span>
+          </div>
+          <div class="detail-item">
+            <span>Network Fee</span>
+            <span id="confirm-fee">~ 0.001 ETH</span>
+          </div>
+          <div class="detail-item">
+            <span>Unlock Date</span>
+            <span id="confirm-unlock">-</span>
+          </div>
+        </div>
+        <div class="confirmation-actions">
+          <button class="cosmic-button secondary" onclick="closeModal('staking-modal')">Cancel</button>
+          <button class="cosmic-button primary" onclick="confirmStaking()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+  <script src="blockchain.js"></script>
+  <script src="cisp-wallet.js"></script>
+  <script src="wallet-config.js"></script>
+  <script src="wallet-manager.js"></script>
+  <script src="notifications.js"></script>
+  <script src="cosmic-ui.js"></script>
+  <script src="wallet-sync.js"></script>
+  <script src="cosmic-functions.js"></script>
+  <script src="cosmic-integration.js"></script>
+  <script src="enhanced-cosmic-effects.js"></script>
+  <script src="staking-system.js"></script>
+
+  <script>
+    let rewardTimer;
+    let poolData = {
+        legendary: { apr: 120, lockPeriod: 30 },
+        epic: { apr: 90, lockPeriod: 14 },
+        rare: { apr: 60, lockPeriod: 7 }
+    };
+
+    document.addEventListener('DOMContentLoaded', async function() {
+      const loadingOverlay = document.getElementById('loading-overlay');
+      loadingOverlay.style.display = 'flex';
+
+      try {
+            await initializeSystems();
+            await loadStakingData();
+            setupEventListeners();
+            startRewardTimer();
+            initializeTooltips();
+        } catch (error) {
+            console.error('Error initializing staking:', error);
+            showNotification('error', 'Failed to initialize staking');
+        } finally {
+            loadingOverlay.style.display = 'none';
+        }
+    });
+
+    async function initializeSystems() {
+        if (!window.notifications) {
+            console.warn('Notification system not found');
+        }
+
+        if (window.cispWallet) {
+            try {
+                await window.cispWallet.init();
+                const wallet = window.cispWallet.getCurrentWallet();
+                if (wallet) {
+                    updateWalletDisplay(wallet);
+                }
+            } catch (error) {
+                console.warn('Wallet initialization error:', error);
+                throw error;
+            }
+        }
+
+        if (!window.nftSystem) {
+            throw new Error('NFT system not found');
+        }
+        await window.nftSystem.initialize();
+    }
+
+    async function loadStakingData() {
+        const wallet = window.cispWallet?.getCurrentWallet();
+        if (!wallet) {
+            displayEmptyState('Please connect your wallet to view staking');
+            return;
+        }
+
+        try {
+            const [stats, rewards] = await Promise.all([
+                window.nftSystem.getStakingStats(wallet.address),
+                window.nftSystem.getStakingRewards(wallet.address)
+            ]);
+
+            updateStakingStats(stats);
+            updateRewards(rewards);
+            await updatePools();
+
+            // Show success notification
+            showNotification('success', 'Staking data loaded successfully');
+      } catch (error) {
+            console.error('Error loading staking data:', error);
+            showNotification('error', 'Failed to load staking data');
+        }
+    }
+
+    function updateStakingStats(stats) {
+        const elements = {
+            'total-staked': stats.totalStaked || 0,
+            'average-apr': `${stats.averageApr || 0}%`,
+            'total-rewards': `${formatNumber(stats.totalRewards)} xCIS`,
+            'average-time': `${stats.averageTime || 0} days`
+        };
+
+        for (const [id, value] of Object.entries(elements)) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = value;
+                // Add animation class
+                element.classList.add('value-updated');
+                setTimeout(() => element.classList.remove('value-updated'), 1000);
+            }
+        }
+    }
+
+    function updateRewards(rewards) {
+        const elements = {
+            'available-rewards': `${formatNumber(rewards.available)} xCIS`,
+            'next-reward': formatTimeRemaining(rewards.nextReward),
+            'reward-share': `${rewards.share || 0}%`,
+            'total-claimed': `${formatNumber(rewards.totalClaimed)} xCIS`
+        };
+
+        for (const [id, value] of Object.entries(elements)) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = value;
+                element.classList.add('value-updated');
+                setTimeout(() => element.classList.remove('value-updated'), 1000);
+            }
+        }
+
+        const claimButton = document.getElementById('claim-rewards');
+        if (claimButton) {
+            claimButton.disabled = !(rewards.available > 0);
+            claimButton.innerHTML = `
+                <i class="fas fa-gift"></i>
+                Claim ${formatNumber(rewards.available)} xCIS
+            `;
+        }
+    }
+
+    async function updatePools() {
+        const wallet = window.cispWallet?.getCurrentWallet();
+        if (!wallet) return;
+
+        try {
+            const pools = ['legendary', 'epic', 'rare'];
+            const poolUpdates = pools.map(async pool => {
+                const poolData = await window.nftSystem.getPoolData(pool);
+                updatePoolStats(pool, poolData);
+                await updatePoolNFTs(pool, poolData.nfts);
+            });
+
+            await Promise.all(poolUpdates);
+        } catch (error) {
+            console.error('Error updating pools:', error);
+            showNotification('error', 'Failed to update staking pools');
+        }
+    }
+
+    function updatePoolStats(poolType, data) {
+        const elements = {
+            [`${poolType}-staked`]: data.totalStaked || 0,
+            [`${poolType}-your-staked`]: data.yourStaked || 0
+        };
+
+        for (const [id, value] of Object.entries(elements)) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = value;
+                element.classList.add('value-updated');
+                setTimeout(() => element.classList.remove('value-updated'), 1000);
+            }
+        }
+    }
+
+    async function updatePoolNFTs(poolType, nfts) {
+        const container = document.getElementById(`${poolType}-nfts`);
+        if (!container) return;
+
+        if (!nfts || nfts.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-box-open"></i>
+                    <p>No NFTs staked in this pool</p>
+          </div>
+        `;
+        return;
+      }
+      
+        container.innerHTML = '';
+        nfts.forEach(nft => {
+            const card = createStakedNFTCard(nft, poolType);
+            container.appendChild(card);
+        });
+    }
+
+    function createStakedNFTCard(nft, poolType) {
+        const card = document.createElement('div');
+        card.className = 'staked-nft';
+        card.innerHTML = `
+            <img src="images/${nft.type}-${nft.rarity}-1.png" alt="${nft.name}">
+            <div class="staked-nft-info">
+                <div class="staked-nft-name">${nft.name}</div>
+                <div class="staked-nft-time">
+                    <i class="fas fa-clock"></i>
+                    Staked: ${timeAgo(nft.stakedAt)}
+          </div>
+                <button class="unstake-button" onclick="unstakeNFT('${nft.tokenId}', '${poolType}')">
+            <i class="fas fa-unlock"></i>
+                    Unstake
+          </button>
+            </div>
+        `;
+        return card;
+    }
+
+    async function claimRewards() {
+        const button = document.getElementById('claim-rewards');
+        if (!button || button.disabled) return;
+
+        try {
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Claiming...';
+
+            const result = await window.nftSystem.claimStakingRewards();
+            showNotification('success', 'Rewards claimed successfully');
+            
+            // Update UI
+            await loadStakingData();
+        } catch (error) {
+            console.error('Error claiming rewards:', error);
+            showNotification('error', error.message);
+        } finally {
+            button.disabled = false;
+            button.innerHTML = '<i class="fas fa-gift"></i> Claim Rewards';
+        }
+    }
+
+    async function unstakeNFT(tokenId, poolType) {
+        try {
+            const button = event.currentTarget;
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Unstaking...';
+
+            await window.nftSystem.unstakeNFT(tokenId);
+            showNotification('success', 'NFT unstaked successfully');
+            
+            // Update UI
+            await loadStakingData();
+        } catch (error) {
+            console.error('Error unstaking NFT:', error);
+            showNotification('error', error.message);
+        }
+    }
+
+    async function connectWallet() {
+        try {
+            if (window.cispWallet) {
+          await window.cispWallet.connect();
+                const wallet = window.cispWallet.getCurrentWallet();
+                if (wallet) {
+                    updateWalletDisplay(wallet);
+                    await loadStakingData();
+                    showNotification('success', 'Wallet connected successfully');
+                }
+          }
+        } catch (error) {
+          console.error('Error connecting wallet:', error);
+            showNotification('error', 'Failed to connect wallet');
+        }
+    }
+
+    function updateWalletDisplay(wallet) {
+        const connectBtn = document.getElementById('wallet-connect-btn');
+        const walletInfo = document.querySelector('.wallet-info');
+        
+        if (wallet) {
+            connectBtn.style.display = 'none';
+            walletInfo.style.display = 'flex';
+            document.getElementById('xcis-balance').textContent = formatNumber(wallet.balance);
+        } else {
+            connectBtn.style.display = 'flex';
+            walletInfo.style.display = 'none';
+        }
+    }
+
+    function startRewardTimer() {
+        if (rewardTimer) {
+            clearInterval(rewardTimer);
+        }
+
+        rewardTimer = setInterval(async () => {
+            const wallet = window.cispWallet?.getCurrentWallet();
+            if (wallet) {
+                const rewards = await window.nftSystem.getStakingRewards(wallet.address);
+                updateRewards(rewards);
+            }
+        }, 1000);
+    }
+
+    function setupEventListeners() {
+        // Wallet connect button
+        const connectBtn = document.getElementById('wallet-connect-btn');
+        if (connectBtn) {
+            connectBtn.addEventListener('click', connectWallet);
+        }
+
+        // Claim rewards button
+        const claimBtn = document.getElementById('claim-rewards');
+        if (claimBtn) {
+            claimBtn.addEventListener('click', claimRewards);
+        }
+
+        // NFT system event listeners
+        window.nftSystem.addListener((event, data) => {
+            switch (event) {
+                case 'stake':
+                case 'unstake':
+                case 'claim':
+                    loadStakingData();
+                    break;
+            }
+        });
+
+        // Add pool hover effects
+        document.querySelectorAll('.pool-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+                card.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.2)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
+            });
+        });
+    }
+
+    function initializeTooltips() {
+        // Add tooltips to APR values
+        document.querySelectorAll('.pool-apr').forEach(apr => {
+            apr.setAttribute('title', 'Annual Percentage Rate');
+            // Add custom tooltip functionality if needed
+        });
+    }
+
+    function showNotification(type, message) {
+        if (window.notifications) {
+            window.notifications.show(type, message);
+        }
+    }
+
+    function formatTimeRemaining(timestamp) {
+        if (!timestamp) return '0h 0m';
+        const now = Date.now();
+        const diff = Math.max(0, timestamp - now);
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        return `${hours}h ${minutes}m`;
+    }
+
+    function timeAgo(timestamp) {
+        const seconds = Math.floor((Date.now() - timestamp) / 1000);
+        
+        if (seconds < 60) return 'just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}h ago`;
+        const days = Math.floor(hours / 24);
+        return `${days}d ago`;
+    }
+
+    function formatNumber(num) {
+      return parseFloat(num).toFixed(2);
+    }
+
+    function displayEmptyState(message) {
+        const containers = ['legendary-nfts', 'epic-nfts', 'rare-nfts'];
+        containers.forEach(id => {
+            const container = document.getElementById(id);
+            if (container) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <p>${message}</p>
+                    </div>
+                `;
+            }
+        });
+    }
+  </script>
+</body>
+</html>

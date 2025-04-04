@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CISP Mining - Cosmic Space Protocol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/css/mining-animations.css">
+    
+    <!-- Loading indicator styles -->
+    <style>
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(91, 91, 230, 0.3);
+            border-radius: 50%;
+            border-top-color: #5b5be6;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        .loading-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(91, 91, 230, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .loading-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #5b5be6, #17a2b8);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .loading-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body class="mining-page">
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-progress">
+            <div class="loading-progress-bar" id="loadingProgress"></div>
+        </div>
+        <div class="loading-text" id="loadingText">Initializing mining system...</div>
+    </div>
+
+    <header class="site-header">
+        <div class="header-content">
+            <a href="/" class="logo">
+                <img src="/assets/logo.svg" alt="CISP Logo" height="40">
+            </a>
+            <button id="connectWallet" class="wallet-button">Connect Wallet</button>
+        </div>
+    </header>
+
+    <main class="mining-dashboard">
+        <h1>xCIS Mining Dashboard</h1>
+        <p class="dashboard-description">
+            Mine xCIS tokens by contributing computational power to the Cosmic Space Protocol network.
+            Earn rewards based on your mining power and network difficulty.
+        </p>
+
+        <div class="mining-grid">
+            <div class="mining-card">
+                <h2>Mining Operation</h2>
+                <div class="mining-animation-container">
+                    <div class="mining-particles"></div>
+                    <div class="mining-progress">
+                        <div class="mining-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mining-card">
+                <h2>Mining Statistics</h2>
+                <div class="mining-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Hash Rate</div>
+                        <div class="stat-value" id="hashRate">0 H/s</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Total Mined</div>
+                        <div class="stat-value" id="totalMined">0.00000000</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Last Reward</div>
+                        <div class="stat-value" id="lastReward">0.00000000</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mining-card">
+                <h2>Mining Controls</h2>
+                <div class="mining-controls">
+                    <button id="startMining" class="mining-button start">
+                        <i class="fas fa-play"></i> Start Mining
+                    </button>
+                    <button id="stopMining" class="mining-button stop" disabled>
+                        <i class="fas fa-stop"></i> Stop Mining
+                    </button>
+                    <button id="claimRewards" class="mining-button claim" disabled>
+                        <i class="fas fa-coins"></i> Claim Rewards
+                    </button>
+                    <div class="power-control">
+                        <label for="powerSlider">Mining Power</label>
+                        <input type="range" id="powerSlider" class="power-slider" min="1" max="10" value="1">
+                        <div class="power-levels">
+                            <span class="power-level">1x</span>
+                            <span class="power-level">5x</span>
+                            <span class="power-level">10x</span>
+                        </div>
+                    </div>
+                    <button id="upgradePower" class="mining-button upgrade">
+                        <i class="fas fa-arrow-up"></i> Upgrade Power
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mining-info">
+            <h2>Mining Information</h2>
+            <ul>
+                <li>Mining rewards are distributed in xCIS tokens</li>
+                <li>Higher mining power increases your chances of finding blocks</li>
+                <li>Rewards can be claimed once accumulated</li>
+                <li>xCIS tokens can be converted to CIS at any time</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://twitter.com/CosmicSpaceP" target="_blank">Twitter</a>
+                <a href="https://t.me/cosmicspaceprotocol" target="_blank">Telegram</a>
+                <a href="https://discord.gg/cosmicspace" target="_blank">Discord</a>
+            </div>
+            <div class="copyright">
+                © 2024 Cosmic Space Protocol. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script>
+        // Track loading progress
+        const scripts = [
+            '/js/lib/blockchain.js',
+            '/js/components/wallet-sync.js',
+            '/js/components/transaction-handler.js',
+            '/js/components/mining-system.js',
+            '/js/components/mining-animations.js',
+            '/js/components/share-modal.js'
+        ];
+
+        let loadedScripts = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const loadingText = document.getElementById('loadingText');
+
+        function updateLoadingProgress() {
+            const progress = (loadedScripts / scripts.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            loadingText.textContent = `Loading components... ${Math.round(progress)}%`;
+
+            if (loadedScripts === scripts.length) {
+                setTimeout(() => {
+                    document.getElementById('loadingOverlay').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('loadingOverlay').style.display = 'none';
+                    }, 300);
+                }, 500);
+            }
+        }
+
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = () => {
+                    loadedScripts++;
+                    updateLoadingProgress();
+                    resolve();
+                };
+                script.onerror = reject;
+                document.body.appendChild(script);
+            });
+        }
+
+        // Load scripts in sequence
+        async function loadScripts() {
+            for (const src of scripts) {
+                try {
+                    await loadScript(src);
+                } catch (error) {
+                    console.error(`Failed to load script: ${src}`, error);
+                }
+            }
+        }
+
+        // Start loading when document is ready
+        document.addEventListener('DOMContentLoaded', loadScripts);
+    </script>
+</body>
+</html> 

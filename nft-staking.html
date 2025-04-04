@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Staking - Cosmic Space Protocol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="nft.css">
+    <style>
+        .staking-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(20, 20, 40, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-card i {
+            font-size: 2em;
+            color: #17a2b8;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            color: #fff;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .rewards-section {
+            background: rgba(23, 162, 184, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(23, 162, 184, 0.2);
+        }
+
+        .rewards-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .rewards-header h2 {
+            color: #17a2b8;
+            margin: 0;
+        }
+
+        .claim-button {
+            background: #17a2b8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .claim-button:hover {
+            background: #138496;
+        }
+
+        .claim-button:disabled {
+            background: rgba(23, 162, 184, 0.5);
+            cursor: not-allowed;
+        }
+
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .reward-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .reward-card i {
+            font-size: 1.5em;
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+
+        .reward-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8em;
+            margin-bottom: 5px;
+        }
+
+        .reward-value {
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+
+        .staking-pools {
+            margin-bottom: 30px;
+        }
+
+        .pool-card {
+            background: rgba(20, 20, 40, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .pool-title {
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .pool-apr {
+            color: #28a745;
+            font-weight: 500;
+        }
+
+        .pool-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .pool-stat {
+            text-align: center;
+        }
+
+        .pool-stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8em;
+            margin-bottom: 5px;
+        }
+
+        .pool-stat-value {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .staked-nfts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .staked-nft {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .staked-nft:hover {
+            transform: translateY(-3px);
+        }
+
+        .staked-nft img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .staked-nft-info {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .staked-nft-name {
+            color: #fff;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .staked-nft-time {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8em;
+        }
+
+        .unstake-button {
+            background: #dc3545;
+            color: white;
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .unstake-button:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body class="cosmic-theme">
+    <!-- Background Elements -->
+    <div class="cosmic-background"></div>
+    <div id="stars" class="stars"></div>
+    <div id="nebula" class="nebula"></div>
+    <div id="aurora" class="aurora"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="cosmic-loading-overlay">
+        <div class="cosmic-spinner"></div>
+        <p>Loading Staking...</p>
+    </div>
+
+    <div class="container">
+        <header class="main-header">
+            <div class="header-content">
+                <h1 class="cosmic-title">NFT Staking</h1>
+                <p class="header-subtitle">Earn rewards by staking your Cosmic Space NFTs</p>
+            </div>
+
+            <nav class="cosmic-nav">
+                <a href="nft-marketplace.html" class="cosmic-nav-item">
+                    <i class="fas fa-store"></i>
+                    <span>Marketplace</span>
+                </a>
+                <a href="nft-collection.html" class="cosmic-nav-item">
+                    <i class="fas fa-images"></i>
+                    <span>My Collection</span>
+                </a>
+                <a href="nft-mint.html" class="cosmic-nav-item">
+                    <i class="fas fa-magic"></i>
+                    <span>Mint NFT</span>
+                </a>
+            </nav>
+
+            <div class="wallet-section">
+                <button class="cosmic-button primary wallet-connect" id="wallet-connect-btn">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                </button>
+                <div class="wallet-info" style="display: none;">
+                    <div class="balance-item">
+                        <i class="fas fa-coins"></i>
+                        <span id="xcis-balance">0.00</span>
+                        <span class="currency">xCIS</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Staking Stats -->
+            <section class="staking-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-layer-group"></i>
+                        <div class="stat-info">
+                        <div class="stat-label">Total Staked NFTs</div>
+                        <div class="stat-value" id="total-staked">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                    <i class="fas fa-chart-line"></i>
+                        <div class="stat-info">
+                        <div class="stat-label">Average APR</div>
+                        <div class="stat-value" id="average-apr">0%</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-coins"></i>
+                        <div class="stat-info">
+                        <div class="stat-label">Total Rewards</div>
+                        <div class="stat-value" id="total-rewards">0 xCIS</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-clock"></i>
+                        <div class="stat-info">
+                        <div class="stat-label">Average Lock Time</div>
+                        <div class="stat-value" id="average-time">0 days</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rewards Section -->
+            <section class="rewards-section">
+                <div class="rewards-header">
+                    <h2>Your Rewards</h2>
+                    <button class="claim-button" id="claim-rewards" disabled>
+                        <i class="fas fa-gift"></i>
+                        Claim Rewards
+                    </button>
+                </div>
+                <div class="rewards-grid">
+                    <div class="reward-card">
+                        <i class="fas fa-coins"></i>
+                        <div class="reward-label">Available Rewards</div>
+                        <div class="reward-value" id="available-rewards">0 xCIS</div>
+                    </div>
+                    <div class="reward-card">
+                        <i class="fas fa-clock"></i>
+                        <div class="reward-label">Next Reward</div>
+                        <div class="reward-value" id="next-reward">0h 0m</div>
+            </div>
+                    <div class="reward-card">
+                        <i class="fas fa-chart-pie"></i>
+                        <div class="reward-label">Your Share</div>
+                        <div class="reward-value" id="reward-share">0%</div>
+            </div>
+                    <div class="reward-card">
+                        <i class="fas fa-calendar"></i>
+                        <div class="reward-label">Total Claimed</div>
+                        <div class="reward-value" id="total-claimed">0 xCIS</div>
+                </div>
+                </div>
+            </section>
+
+            <!-- Staking Pools -->
+            <section class="staking-pools">
+                <div class="pool-card">
+                    <div class="pool-header">
+                        <div class="pool-title">Legendary Pool</div>
+                        <div class="pool-apr">APR: 120%</div>
+    </div>
+                    <div class="pool-stats">
+                        <div class="pool-stat">
+                            <div class="pool-stat-label">Total Staked</div>
+                            <div class="pool-stat-value" id="legendary-staked">0</div>
+            </div>
+                        <div class="pool-stat">
+                            <div class="pool-stat-label">Your Staked</div>
+                            <div class="pool-stat-value" id="legendary-your-staked">0</div>
+                            </div>
+                        <div class="pool-stat">
+                            <div class="pool-stat-label">Lock Period</div>
+                            <div class="pool-stat-value">30 days</div>
+                        </div>
+                    </div>
+                    <div class="staked-nfts" id="legendary-nfts">
+                        <!-- Staked NFTs will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="pool-card">
+                    <div class="pool-header">
+                        <div class="pool-title">Epic Pool</div>
+                        <div class="pool-apr">APR: 90%</div>
+                    </div>
+                    <div class="pool-stats">
+                        <div class="pool-stat">
+                            <div class="pool-stat-label">Total Staked</div>
+                            <div class="pool-stat-value" id="epic-staked">0</div>
+                        </div>
+                        <div class="pool-stat">
+                            <div class="pool-stat-label">Your Staked</div>
+                            <div class="pool-stat-value" id="epic-your-staked">0</div>
+                        </div>
+                        <div class="pool-stat">
+                            <div class="pool-stat-label">Lock Period</div>
+                            <div class="pool-stat-value">14 days</div>
+                </div>
+            </div>
+                    <div class="staked-nfts" id="epic-nfts">
+                        <!-- Staked NFTs will be loaded here -->
+        </div>
+    </div>
+
+                <div class="pool-card">
+                    <div class="pool-header">
+                        <div class="pool-title">Rare Pool</div>
+                        <div class="pool-apr">APR: 60%</div>
+            </div>
+                    <div class="pool-stats">
+                        <div class="pool-stat">
+                            <div class="pool-stat-label">Total Staked</div>
+                            <div class="pool-stat-value" id="rare-staked">0</div>
+                            </div>
+                        <div class="pool-stat">
+                            <div class="pool-stat-label">Your Staked</div>
+                            <div class="pool-stat-value" id="rare-your-staked">0</div>
+                            </div>
+                        <div class="pool-stat">
+                            <div class="pool-stat-label">Lock Period</div>
+                            <div class="pool-stat-value">7 days</div>
+                        </div>
+                    </div>
+                    <div class="staked-nfts" id="rare-nfts">
+                        <!-- Staked NFTs will be loaded here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="cosmic-footer">
+            <p>&copy; 2024 COSMIC Space Protocol. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="blockchain.js"></script>
+    <script src="cisp-wallet.js"></script>
+    <script src="wallet-config.js"></script>
+    <script src="wallet-manager.js"></script>
+    <script src="notifications.js"></script>
+    <script src="nft-system.js"></script>
+    <script src="nft-marketplace.js"></script>
+    <script src="cosmic-ui.js"></script>
+    <script src="wallet-sync.js"></script>
+    <script src="cosmic-functions.js"></script>
+    <script src="cosmic-integration.js"></script>
+    <script src="enhanced-cosmic-effects.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            loadingOverlay.style.display = 'flex';
+
+            try {
+                // Initialize systems
+                await initializeSystems();
+                
+                // Load initial data
+                await loadStakingData();
+
+                // Setup event listeners
+                setupEventListeners();
+
+            } catch (error) {
+                console.error('Error initializing staking:', error);
+                if (window.notifications) {
+                    window.notifications.show('error', 'Failed to initialize staking');
+                }
+            } finally {
+                loadingOverlay.style.display = 'none';
+            }
+        });
+
+        async function initializeSystems() {
+            // Initialize notification system
+            if (!window.notifications) {
+                console.warn('Notification system not found');
+            }
+
+            // Initialize wallet system
+                        if (window.cispWallet) {
+                try {
+                    await window.cispWallet.init();
+                            const wallet = window.cispWallet.getCurrentWallet();
+                            if (wallet) {
+                        updateWalletDisplay(wallet);
+                    }
+                } catch (error) {
+                    console.warn('Wallet initialization error:', error);
+                }
+            }
+
+            // Initialize NFT system
+            if (!window.nftSystem) {
+                throw new Error('NFT system not found');
+            }
+            await window.nftSystem.initialize();
+        }
+
+        async function loadStakingData() {
+            const wallet = window.cispWallet?.getCurrentWallet();
+            if (!wallet) {
+                displayEmptyState('Please connect your wallet to view staking');
+                return;
+            }
+
+            // Load staking stats
+            const stats = await window.nftSystem.getStakingStats(wallet.address);
+            updateStakingStats(stats);
+
+            // Load rewards
+            const rewards = await window.nftSystem.getStakingRewards(wallet.address);
+            updateRewards(rewards);
+
+            // Load staked NFTs for each pool
+            await updatePools();
+        }
+
+        function updateStakingStats(stats) {
+            document.getElementById('total-staked').textContent = stats.totalStaked || 0;
+            document.getElementById('average-apr').textContent = `${stats.averageApr || 0}%`;
+            document.getElementById('total-rewards').textContent = `${stats.totalRewards || 0} xCIS`;
+            document.getElementById('average-time').textContent = `${stats.averageTime || 0} days`;
+        }
+
+        function updateRewards(rewards) {
+            document.getElementById('available-rewards').textContent = `${rewards.available || 0} xCIS`;
+            document.getElementById('next-reward').textContent = formatTimeRemaining(rewards.nextReward);
+            document.getElementById('reward-share').textContent = `${rewards.share || 0}%`;
+            document.getElementById('total-claimed').textContent = `${rewards.totalClaimed || 0} xCIS`;
+
+            const claimButton = document.getElementById('claim-rewards');
+            claimButton.disabled = !(rewards.available > 0);
+        }
+
+        async function updatePools() {
+            const wallet = window.cispWallet?.getCurrentWallet();
+            if (!wallet) return;
+
+            const pools = ['legendary', 'epic', 'rare'];
+            for (const pool of pools) {
+                const poolData = await window.nftSystem.getPoolData(pool);
+                document.getElementById(`${pool}-staked`).textContent = poolData.totalStaked || 0;
+                document.getElementById(`${pool}-your-staked`).textContent = poolData.yourStaked || 0;
+
+                // Update staked NFTs
+                const container = document.getElementById(`${pool}-nfts`);
+                container.innerHTML = '';
+
+                if (poolData.nfts && poolData.nfts.length > 0) {
+                    poolData.nfts.forEach(nft => {
+                        const card = createStakedNFTCard(nft);
+                        container.appendChild(card);
+                    });
+                } else {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <p>No NFTs staked in this pool</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function createStakedNFTCard(nft) {
+                        const card = document.createElement('div');
+            card.className = 'staked-nft';
+                        card.innerHTML = `
+                <img src="images/${nft.type}-${nft.rarity}-1.png" alt="${nft.name}">
+                <div class="staked-nft-info">
+                    <div class="staked-nft-name">${nft.name}</div>
+                    <div class="staked-nft-time">Staked: ${timeAgo(nft.stakedAt)}</div>
+                    <button class="unstake-button" onclick="unstakeNFT('${nft.tokenId}')">
+                        Unstake
+                            </button>
+                </div>
+                        `;
+            return card;
+        }
+
+        function setupEventListeners() {
+            // Wallet connect button
+            const connectBtn = document.getElementById('wallet-connect-btn');
+            if (connectBtn) {
+                connectBtn.addEventListener('click', connectWallet);
+            }
+
+            // Claim rewards button
+            const claimBtn = document.getElementById('claim-rewards');
+            if (claimBtn) {
+                claimBtn.addEventListener('click', claimRewards);
+            }
+
+            // NFT system event listeners
+            window.nftSystem.addListener((event, data) => {
+                switch (event) {
+                    case 'stake':
+                    case 'unstake':
+                    case 'claim':
+                        loadStakingData();
+                        break;
+            }
+            });
+        }
+
+        async function claimRewards() {
+            try {
+                const result = await window.nftSystem.claimStakingRewards();
+                    if (window.notifications) {
+                    window.notifications.show('success', 'Rewards claimed successfully');
+                }
+                await loadStakingData();
+            } catch (error) {
+                console.error('Error claiming rewards:', error);
+                if (window.notifications) {
+                    window.notifications.show('error', error.message);
+                }
+            }
+        }
+
+        async function unstakeNFT(tokenId) {
+            try {
+                await window.nftSystem.unstakeNFT(tokenId);
+                    if (window.notifications) {
+                    window.notifications.show('success', 'NFT unstaked successfully');
+                }
+                await loadStakingData();
+            } catch (error) {
+                console.error('Error unstaking NFT:', error);
+                if (window.notifications) {
+                    window.notifications.show('error', error.message);
+                }
+            }
+        }
+
+        async function connectWallet() {
+            try {
+                if (window.cispWallet) {
+                    await window.cispWallet.connect();
+                    const wallet = window.cispWallet.getCurrentWallet();
+                    if (wallet) {
+                        updateWalletDisplay(wallet);
+                        await loadStakingData();
+                    }
+                }
+            } catch (error) {
+                console.error('Error connecting wallet:', error);
+                if (window.notifications) {
+                    window.notifications.show('error', 'Failed to connect wallet');
+                }
+            }
+        }
+
+        function updateWalletDisplay(wallet) {
+            const connectBtn = document.getElementById('wallet-connect-btn');
+            const walletInfo = document.querySelector('.wallet-info');
+                
+            if (wallet) {
+                connectBtn.style.display = 'none';
+                walletInfo.style.display = 'flex';
+                document.getElementById('xcis-balance').textContent = formatNumber(wallet.balance);
+            } else {
+                connectBtn.style.display = 'flex';
+                walletInfo.style.display = 'none';
+            }
+        }
+
+        function startRewardTimer() {
+            setInterval(async () => {
+                const wallet = window.cispWallet?.getCurrentWallet();
+                if (wallet) {
+                    const rewards = await window.nftSystem.getStakingRewards(wallet.address);
+                    document.getElementById('next-reward').textContent = formatTimeRemaining(rewards.nextReward);
+                    document.getElementById('available-rewards').textContent = `${rewards.available || 0} xCIS`;
+                    
+                    const claimButton = document.getElementById('claim-rewards');
+                    claimButton.disabled = !(rewards.available > 0);
+            }
+            }, 1000);
+        }
+
+        function formatTimeRemaining(timestamp) {
+            if (!timestamp) return '0h 0m';
+            const now = Date.now();
+            const diff = Math.max(0, timestamp - now);
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            return `${hours}h ${minutes}m`;
+        }
+
+        function timeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+            
+            if (seconds < 60) return 'just now';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `${minutes}m ago`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours}h ago`;
+            const days = Math.floor(hours / 24);
+            return `${days}d ago`;
+        }
+
+        function formatNumber(num) {
+            return parseFloat(num).toFixed(2);
+        }
+
+        function displayEmptyState(message) {
+            const containers = ['legendary-nfts', 'epic-nfts', 'rare-nfts'];
+            containers.forEach(id => {
+                const container = document.getElementById(id);
+                if (container) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <p>${message}</p>
+                        </div>
+                    `;
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

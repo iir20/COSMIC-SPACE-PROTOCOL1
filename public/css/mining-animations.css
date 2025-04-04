@@ -1,0 +1,415 @@
+/* Mining animations styles */
+.mining-dashboard {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.mining-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.mining-card {
+    background: rgba(20, 20, 40, 0.9);
+    border-radius: 15px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.mining-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.mining-animation-container {
+    position: relative;
+    height: 200px;
+    margin: 1rem 0;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.mining-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #5b5be6;
+    border-radius: 50%;
+    animation: particleFloat 3s infinite linear;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(200px) translateX(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20px) translateX(100px);
+        opacity: 0;
+    }
+}
+
+.mining-progress {
+    position: relative;
+    height: 6px;
+    background: rgba(91, 91, 230, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+.mining-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #5b5be6, #17a2b8);
+    width: 0%;
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+.mining-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.mining-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.stat-item {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-3px);
+}
+
+.stat-item::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(91, 91, 230, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.stat-item:hover::after {
+    opacity: 1;
+}
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9em;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    color: #fff;
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.mining-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.mining-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #fff;
+}
+
+.mining-button.start {
+    background: linear-gradient(45deg, #28a745, #20c997);
+}
+
+.mining-button.stop {
+    background: linear-gradient(45deg, #dc3545, #fd7e14);
+}
+
+.mining-button.claim {
+    background: linear-gradient(45deg, #5b5be6, #17a2b8);
+}
+
+.mining-button.upgrade {
+    background: linear-gradient(45deg, #6f42c1, #e83e8c);
+}
+
+.mining-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(91, 91, 230, 0.3);
+}
+
+.power-slider {
+    position: relative;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(91, 91, 230, 0.2);
+    border-radius: 3px;
+    outline: none;
+}
+
+.power-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #5b5be6;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.power-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.power-levels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+
+.power-level {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8em;
+}
+
+.mining-history {
+    margin-top: 2rem;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+.history-item:hover {
+    transform: translateX(5px);
+}
+
+.history-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.history-icon {
+    color: #5b5be6;
+    font-size: 1.2em;
+}
+
+.history-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.history-time {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8em;
+}
+
+.history-reward {
+    color: #17a2b8;
+    font-weight: 600;
+}
+
+.mining-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.status-active {
+    background: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+}
+
+.status-inactive {
+    background: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
+
+.mining-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100%) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100%) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #5b5be6;
+    border-radius: 50%;
+    animation: floatUp 3s infinite;
+}
+
+.mining-success-flash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(91, 91, 230, 0.3), rgba(23, 162, 184, 0.3));
+    animation: successFlash 0.5s ease-out;
+    pointer-events: none;
+}
+
+@keyframes successFlash {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.2);
+    }
+}
+
+.value-updated {
+    animation: valueUpdate 0.5s ease-out;
+}
+
+@keyframes valueUpdate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+        color: #5b5be6;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.mining-particles .particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: linear-gradient(45deg, #5b5be6, #17a2b8);
+    border-radius: 50%;
+    animation: particleAnimation 3s infinite;
+}
+
+@keyframes particleAnimation {
+    0% {
+        transform: translateY(200px) translateX(0) scale(1);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20px) translateX(100px) scale(0);
+        opacity: 0;
+    }
+}
+
+.power-slider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: rgba(91, 91, 230, 0.1);
+    border-radius: 3px;
+    transform: translateY(-50%);
+    z-index: -1;
+}
+
+@media (max-width: 768px) {
+    .mining-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mining-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mining-controls {
+        flex-direction: column;
+    }
+} 

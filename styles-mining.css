@@ -1,0 +1,579 @@
+/* Mining Interface Styles */
+:root {
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-full: 50%;
+    --color-primary: #4299e1;
+    --color-secondary: #7c3aed;
+    --color-accent: #48bb78;
+    --color-text: #ffffff;
+    --color-background: rgba(255, 255, 255, 0.05);
+}
+
+/* Mining Container */
+.mining-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-md);
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+}
+
+.mining-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    width: 100%;
+}
+
+.mining-title {
+    font-size: 1.75rem;
+    color: var(--color-secondary);
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+@media (min-width: 768px) {
+    .mining-title {
+        font-size: 2rem;
+    }
+}
+
+.mining-title i {
+    color: var(--color-primary);
+}
+
+.wallet-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: var(--color-background);
+    border-radius: var(--radius-md);
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .wallet-info {
+        flex-direction: row;
+        justify-content: space-between;
+        max-width: none;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+}
+
+.wallet-address {
+    font-family: 'JetBrains Mono', monospace;
+    color: #a0aec0;
+    font-size: 0.9rem;
+}
+
+.wallet-balance {
+    color: var(--color-accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+@media (min-width: 768px) {
+    .wallet-address,
+    .wallet-balance {
+        font-size: 1rem;
+    }
+}
+
+.mining-dashboard {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    .mining-dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .mining-dashboard {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+    }
+}
+
+.mining-card {
+    background: var(--color-background);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+@media (min-width: 768px) {
+    .mining-card {
+        padding: var(--spacing-xl);
+    }
+}
+
+.mining-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .card-header {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+        margin-bottom: var(--spacing-xl);
+    }
+}
+
+.card-title {
+    font-size: 1.1rem;
+    color: var(--color-text);
+    margin: 0;
+}
+
+@media (min-width: 768px) {
+    .card-title {
+        font-size: 1.25rem;
+    }
+}
+
+.mining-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+@media (min-width: 480px) {
+    .mining-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+}
+
+.stat-item {
+    background: rgba(0, 0, 0, 0.2);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .stat-item {
+        padding: var(--spacing-md);
+    }
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-value {
+    font-size: 1.1rem;
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+@media (min-width: 768px) {
+    .stat-label {
+        font-size: 0.875rem;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .stat-value {
+        font-size: 1.25rem;
+    }
+}
+
+.mining-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+}
+
+@media (min-width: 768px) {
+    .mining-controls {
+        flex-direction: row;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-xl);
+    }
+}
+
+.btn {
+    padding: var(--spacing-sm);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .btn {
+        padding: var(--spacing-sm) var(--spacing-lg);
+        font-size: 1rem;
+        width: auto;
+        flex: 1;
+    }
+}
+
+.btn i {
+    font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+    .btn i {
+        font-size: 1.1rem;
+    }
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #3182ce;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #2d3748;
+    color: #a0aec0;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #4a5568;
+    color: #fff;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.mining-animation {
+    height: 80px;
+    position: relative;
+    margin: var(--spacing-md) 0;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 768px) {
+    .mining-animation {
+        height: 100px;
+    }
+}
+
+.mining-history {
+    background: var(--color-background);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .mining-history {
+        padding: var(--spacing-xl);
+        margin-top: var(--spacing-xl);
+    }
+}
+
+.mining-history h3 {
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text);
+    font-size: 1.1rem;
+}
+
+@media (min-width: 768px) {
+    .mining-history h3 {
+        font-size: 1.25rem;
+    }
+}
+
+.history-content {
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: var(--spacing-sm);
+}
+
+@media (min-width: 768px) {
+    .history-content {
+        max-height: 300px;
+        padding-right: var(--spacing-md);
+    }
+}
+
+.empty-history {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    padding: var(--spacing-lg);
+    font-size: 0.9rem;
+}
+
+@media (min-width: 768px) {
+    .empty-history {
+        padding: var(--spacing-xl);
+        font-size: 1rem;
+    }
+}
+
+/* Status Indicators */
+.status {
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .status {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.875rem;
+        width: auto;
+    }
+}
+
+.status.active {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+.status.inactive {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+/* Fix for iOS Safari 100vh issue */
+@supports (-webkit-touch-callout: none) {
+    .mining-container {
+        min-height: -webkit-fill-available;
+    }
+}
+
+.notification {
+    position: fixed;
+    bottom: var(--spacing-lg);
+    right: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    animation: slideIn 0.3s ease-out;
+    z-index: 1000;
+}
+
+.notification.success {
+    background: rgba(72, 187, 120, 0.9);
+    color: #fff;
+}
+
+.notification.error {
+    background: rgba(229, 62, 62, 0.9);
+    color: #fff;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .mining-container {
+        padding: var(--spacing-md);
+    }
+}
+
+@media (max-width: 992px) {
+    .mining-dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .mining-title {
+        font-size: 1.5rem;
+    }
+
+    .mining-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mining-controls {
+        flex-direction: column;
+    }
+
+    .mining-controls .btn {
+        width: 100%;
+    }
+
+    .stat-item {
+        padding: var(--spacing-sm);
+    }
+
+    .stat-value {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .mining-container {
+        padding: var(--spacing-sm);
+    }
+
+    .mining-card {
+        padding: var(--spacing-md);
+    }
+
+    .mining-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .card-header {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        text-align: center;
+    }
+
+    .status {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Dark Mode Enhancement */
+@media (prefers-color-scheme: dark) {
+    .mining-card {
+        background: rgba(17, 24, 39, 0.8);
+    }
+
+    .stat-item {
+        background: rgba(17, 24, 39, 0.5);
+    }
+
+    .btn-secondary {
+        background: rgba(17, 24, 39, 0.5);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+        background: rgba(17, 24, 39, 0.7);
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal.show {
+    opacity: 1;
+}
+
+.modal-content {
+    position: relative;
+    background: linear-gradient(135deg, #1a1f2c, #2d3748);
+    margin: 5% auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 1200px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 24px;
+    color: #a0aec0;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-modal:hover {
+    color: #fff;
+}
+
+/* Custom Scrollbar for History */
+.history-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.history-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.history-content::-webkit-scrollbar-thumb {
+    background: #7c3aed;
+    border-radius: 3px;
+}
+
+.history-content::-webkit-scrollbar-thumb:hover {
+    background: #6d28d9;
+}

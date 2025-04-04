@@ -1,0 +1,244 @@
+.mining-dashboard {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.mining-status,
+.mining-controls,
+.mining-info {
+    background: rgba(13, 17, 23, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+h2 {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.status-grid,
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.status-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.status-item label {
+    color: #8b949e;
+    font-size: 0.9rem;
+}
+
+.status-item span {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-weight: 600;
+}
+
+.status::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.status.active {
+    background: rgba(35, 134, 54, 0.2);
+    color: #3fb950;
+}
+
+.status.active::before {
+    background: #3fb950;
+    box-shadow: 0 0 8px #3fb950;
+}
+
+.status.inactive {
+    background: rgba(248, 81, 73, 0.2);
+    color: #f85149;
+}
+
+.status.inactive::before {
+    background: #f85149;
+    box-shadow: 0 0 8px #f85149;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.control-group label {
+    color: #8b949e;
+    font-size: 0.9rem;
+}
+
+#powerSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    outline: none;
+}
+
+#powerSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #58a6ff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#powerSlider::-webkit-slider-thumb:hover {
+    background: #79b8ff;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-success {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #238636;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #2ea043;
+}
+
+.btn-secondary {
+    background: #21262d;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background: #30363d;
+}
+
+.btn-success {
+    background: #1f6feb;
+    color: #fff;
+}
+
+.btn-success:hover {
+    background: #388bfd;
+}
+
+.mode-efficient {
+    color: #3fb950;
+}
+
+.mode-standard {
+    color: #f0883e;
+}
+
+.mode-maximum {
+    color: #f85149;
+}
+
+.mining-info {
+    color: #8b949e;
+}
+
+.mining-info h3 {
+    color: #fff;
+    margin: 1rem 0;
+}
+
+.mining-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.mining-info li {
+    margin-bottom: 0.5rem;
+}
+
+.mining-info strong {
+    color: #fff;
+}
+
+.note {
+    font-style: italic;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+}
+
+/* Notification styles */
+.notification {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 500;
+    z-index: 1000;
+    display: none;
+    animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+    background: #238636;
+}
+
+.notification.error {
+    background: #f85149;
+}
+
+.notification.info {
+    background: #1f6feb;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+} 

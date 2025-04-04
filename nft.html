@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSMIC NFT Collection</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="nft-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="description" content="View and manage your Cosmic Space Protocol NFT collection">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-left">
+                <h1><i class="fas fa-galaxy"></i> COSMIC NFTs</h1>
+                <a href="home.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            </div>
+            <div class="header-center">
+                <nav class="main-nav">
+                    <button class="nav-button active" data-tab="collection">
+                        <i class="fas fa-images"></i> My Collection
+                    </button>
+                    <button class="nav-button" data-tab="marketplace">
+                        <i class="fas fa-store"></i> Marketplace
+                    </button>
+                    <button class="nav-button" data-tab="mint">
+                        <i class="fas fa-magic"></i> Mint NFT
+                    </button>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="wallet-info">
+                    <div class="token-balances">
+                        <div class="balance xcis">
+                            <span class="balance-icon"><i class="fas fa-coins"></i></span>
+                            <span class="balance-value" id="xcis-balance">0.00</span>
+                            <span class="balance-symbol">xCIS</span>
+                        </div>
+                        <div class="balance cis">
+                            <span class="balance-icon"><i class="fas fa-gem"></i></span>
+                            <span class="balance-value" id="cis-balance">0.00</span>
+                            <span class="balance-symbol">CIS</span>
+                        </div>
+                    </div>
+                    <button class="wallet-connect">
+                        <i class="fas fa-wallet"></i> Connect Wallet
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="app-content">
+            <!-- Collection Tab -->
+            <section id="collection" class="tab-content active">
+                <div class="section-header">
+                    <h2><i class="fas fa-images"></i> My NFT Collection</h2>
+                    <div class="nft-controls">
+                        <div class="nft-filter">
+                            <label for="category-filter">Category:</label>
+                            <select id="category-filter">
+                                <option value="all">All Categories</option>
+                                <option value="Planet">Planets</option>
+                                <option value="Star">Stars</option>
+                                <option value="Galaxy">Galaxies</option>
+                                <option value="Nebula">Nebulas</option>
+                                <option value="BlackHole">Black Holes</option>
+                                <option value="Comet">Comets</option>
+                                <option value="Asteroid">Asteroids</option>
+                                <option value="Satellite">Satellites</option>
+                            </select>
+                        </div>
+                        <div class="nft-filter">
+                            <label for="rarity-filter">Rarity:</label>
+                            <select id="rarity-filter">
+                                <option value="all">All Rarities</option>
+                                <option value="COMMON">Common</option>
+                                <option value="UNCOMMON">Uncommon</option>
+                                <option value="RARE">Rare</option>
+                                <option value="EPIC">Epic</option>
+                                <option value="LEGENDARY">Legendary</option>
+                            </select>
+                        </div>
+                        <div class="nft-filter">
+                            <label for="sort-by">Sort By:</label>
+                            <select id="sort-by">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="rarity">Rarity</option>
+                                <option value="power">Power</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="nft-grid" data-container="collection" data-auto-update="true">
+                    <!-- NFTs will be loaded here -->
+                    <div class="nft-loading">
+                        <i class="fas fa-spinner"></i> Loading your collection...
+                    </div>
+                </div>
+            </section>
+
+            <!-- Marketplace Tab -->
+            <section id="marketplace" class="tab-content">
+                <div class="section-header">
+                    <h2><i class="fas fa-store"></i> NFT Marketplace</h2>
+                    <div class="marketplace-stats">
+                        <div class="stat">
+                            <span class="stat-label">Floor Price</span>
+                            <span class="stat-value" id="floor-price">100 xCIS</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Volume (24h)</span>
+                            <span class="stat-value" id="volume">0 xCIS</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Listed NFTs</span>
+                            <span class="stat-value" id="listed-count">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Active Auctions</span>
+                            <span class="stat-value" id="auction-count">0</span>
+                        </div>
+                    </div>
+                    <div class="marketplace-tabs">
+                        <button class="tab-button active" data-view="listings">
+                            <i class="fas fa-tag"></i> Fixed Price
+                        </button>
+                        <button class="tab-button" data-view="auctions">
+                            <i class="fas fa-gavel"></i> Auctions
+                        </button>
+                    </div>
+                    <div class="nft-controls">
+                        <div class="nft-filter">
+                            <label for="market-category">Category:</label>
+                            <select id="market-category">
+                                <option value="all">All Categories</option>
+                                <option value="Planet">Planets</option>
+                                <option value="Star">Stars</option>
+                                <option value="Galaxy">Galaxies</option>
+                                <option value="Nebula">Nebulas</option>
+                                <option value="BlackHole">Black Holes</option>
+                                <option value="Comet">Comets</option>
+                                <option value="Asteroid">Asteroids</option>
+                                <option value="Satellite">Satellites</option>
+                            </select>
+                        </div>
+                        <div class="nft-filter">
+                            <label for="market-rarity">Rarity:</label>
+                            <select id="market-rarity">
+                                <option value="all">All Rarities</option>
+                                <option value="COMMON">Common</option>
+                                <option value="UNCOMMON">Uncommon</option>
+                                <option value="RARE">Rare</option>
+                                <option value="EPIC">Epic</option>
+                                <option value="LEGENDARY">Legendary</option>
+                            </select>
+                        </div>
+                        <div class="nft-filter">
+                            <label for="price-range">Price Range:</label>
+                            <select id="price-range">
+                                <option value="all">All Prices</option>
+                                <option value="0-100">0-100 xCIS</option>
+                                <option value="100-500">100-500 xCIS</option>
+                                <option value="500-1000">500-1000 xCIS</option>
+                                <option value="1000+">1000+ xCIS</option>
+                            </select>
+                        </div>
+                        <div class="nft-filter">
+                            <label for="market-sort">Sort By:</label>
+                            <select id="market-sort">
+                                <option value="newest">Recently Listed</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="rarity">Rarity</option>
+                            </select>
+                        </div>
+                        <div class="nft-filter">
+                            <label for="listing-type">Type:</label>
+                            <select id="listing-type">
+                                <option value="fixed">Fixed Price</option>
+                                <option value="auction">Auction</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="nft-grid" data-container="marketplace">
+                    <!-- Listed NFTs will be loaded here -->
+                    <div class="nft-loading">
+                        <i class="fas fa-spinner"></i> Loading marketplace...
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mint NFT Tab -->
+            <section id="mint" class="tab-content">
+                <div class="section-header">
+                    <h2><i class="fas fa-magic"></i> Mint New NFT</h2>
+                    <div class="mint-info">
+                        <p>Create your own unique cosmic NFT! Choose a category and let the cosmic forces determine its rarity.</p>
+                    </div>
+                </div>
+                <div class="mint-container">
+                    <div class="mint-options">
+                        <div class="mint-option">
+                            <label for="mint-category">Select Category:</label>
+                            <select id="mint-category">
+                                <option value="random">Random (20% Discount)</option>
+                                <option value="Planet">Planet</option>
+                                <option value="Star">Star</option>
+                                <option value="Galaxy">Galaxy</option>
+                                <option value="Nebula">Nebula</option>
+                                <option value="BlackHole">Black Hole</option>
+                                <option value="Comet">Comet</option>
+                                <option value="Asteroid">Asteroid</option>
+                                <option value="Satellite">Satellite</option>
+                            </select>
+                        </div>
+                        <div class="mint-preview">
+                            <h3>Minting Cost</h3>
+                            <div class="cost-breakdown">
+                                <div class="cost-item">
+                                    <span>Base Cost:</span>
+                                    <span>100 xCIS</span>
+                                </div>
+                                <div class="cost-item discount">
+                                    <span>Random Discount:</span>
+                                    <span>-20 xCIS</span>
+                                </div>
+                                <div class="cost-item total">
+                                    <span>Total Cost:</span>
+                                    <span>80 xCIS</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="mint-button" class="action-button primary glow-effect">
+                            <i class="fas fa-magic"></i> Mint NFT
+                        </button>
+                    </div>
+                    <div class="rarity-chances">
+                        <h3>Rarity Chances</h3>
+                        <div class="rarity-bar">
+                            <div class="rarity-segment common" style="width: 40%">
+                                <span>Common</span>
+                                <span>40%</span>
+                            </div>
+                            <div class="rarity-segment uncommon" style="width: 30%">
+                                <span>Uncommon</span>
+                                <span>30%</span>
+                            </div>
+                            <div class="rarity-segment rare" style="width: 15%">
+                                <span>Rare</span>
+                                <span>15%</span>
+                            </div>
+                            <div class="rarity-segment epic" style="width: 10%">
+                                <span>Epic</span>
+                                <span>10%</span>
+                            </div>
+                            <div class="rarity-segment legendary" style="width: 5%">
+                                <span>Legendary</span>
+                                <span>5%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nft-preview-container">
+                        <h3>Preview</h3>
+                        <div id="nft-preview" class="nft-preview">
+                            <div class="preview-placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>Select a category to preview</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- NFT Collection Stats -->
+        <div class="collection-stats-panel">
+            <div class="stat-item">
+                <i class="fas fa-image"></i>
+                <span class="stat-label">Total NFTs</span>
+                <span class="stat-value" id="total-nfts">0</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-star"></i>
+                <span class="stat-label">Rarest NFT</span>
+                <span class="stat-value" id="rarest-nft">None</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-chart-line"></i>
+                <span class="stat-label">Collection Value</span>
+                <span class="stat-value" id="collection-value">0 xCIS</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="blockchain.js"></script>
+    <script src="cisp-wallet.js"></script>
+    <script src="nft-system.js"></script>
+    <script src="nft-marketplace.js"></script>
+    <script src="notifications.js"></script>
+    <script src="enhanced-cosmic-effects.js"></script>
+    <script src="improved-wallet-sync.js"></script>
+    <script src="global-coordination.js"></script>
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make sure all systems are initialized before proceeding
+            window.globalCoordination?.onReady(function() {
+                initializePage();
+                setupEventListeners();
+                updateInterface();
+            });
+        });
+
+        function initializePage() {
+            // Set up tab navigation
+            const navButtons = document.querySelectorAll('.nav-button');
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.dataset.tab;
+                    switchTab(tabId);
+                });
+            });
+
+            // Initialize wallet connection
+            const walletButton = document.querySelector('.wallet-connect');
+            walletButton.addEventListener('click', async () => {
+                if (window.cispWallet.currentWallet) {
+                    await window.cispWallet.disconnectWallet();
+                } else {
+                    await window.cispWallet.connectWallet();
+                }
+            });
+
+            // Set up filters
+            setupFilters();
+            
+            // Try to preload NFT images for preview
+            try {
+                if (window.nftSystem && typeof window.nftSystem.loadNFTImages === 'function') {
+                    window.nftSystem.loadNFTImages();
+                }
+            } catch (error) {
+                console.warn('Error loading NFT images:', error);
+                // Continue anyway - images will load when needed
+            }
+            
+            // Set up category preview
+            const categorySelect = document.getElementById('mint-category');
+            if (categorySelect) {
+                categorySelect.addEventListener('change', updateNFTPreview);
+            }
+        }
+
+        function updateNFTPreview() {
+            const category = document.getElementById('mint-category').value;
+            const previewContainer = document.getElementById('nft-preview');
+            
+            if (category === 'random') {
+                previewContainer.innerHTML = `
+                    <div class="preview-placeholder">
+                        <i class="fas fa-dice"></i>
+                        <p>Random category - surprise yourself!</p>
+                    </div>
+                `;
+            } else {
+                // Show sample image for the selected category
+                const rarities = ['COMMON', 'UNCOMMON', 'RARE', 'EPIC', 'LEGENDARY'];
+                const randomRarity = rarities[Math.floor(Math.random() * 3)]; // Bias toward common rarities for preview
+                
+                previewContainer.innerHTML = `
+                    <div class="nft-preview-card ${randomRarity.toLowerCase()}">
+                        <div class="preview-image-container">
+                            <img src="nft-images/${category}-${randomRarity.toLowerCase()}-1.png" 
+                                 onerror="this.src='nft-images/placeholder.png'" 
+                                 alt="${category} Preview">
+                        </div>
+                        <div class="preview-info">
+                            <h4>Sample ${category}</h4>
+                            <span class="preview-rarity">${randomRarity}</span>
+                        </div>
+                    </div>
+                    <p class="preview-note">Final rarity is determined by chance</p>
+                `;
+            }
+        }
+
+        function switchTab(tabId) {
+            // Update active tab button
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tabId);
+            });
+
+            // Update visible content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.toggle('active', content.id === tabId);
+            });
+
+            // Load content for the active tab
+            loadTabContent(tabId);
+        }
+
+        function setupFilters() {
+            const filters = document.querySelectorAll('select[id$="-filter"], select[id^="market-"]');
+            filters.forEach(filter => {
+                filter.addEventListener('change', () => {
+                    const container = filter.closest('section').querySelector('.nft-grid');
+                    updateNFTDisplay(container);
+                });
+            });
+        }
+
+        function loadTabContent(tabId) {
+            switch(tabId) {
+                case 'collection':
+                    loadUserCollection();
+                    break;
+                case 'marketplace':
+                    loadMarketplace();
+                    break;
+                case 'mint':
+                    updateMintingPreview();
+                    updateNFTPreview();
+                    break;
+            }
+        }
+
+        function loadUserCollection() {
+            const container = document.querySelector('[data-container="collection"]');
+            const categoryFilter = document.getElementById('category-filter').value;
+            const rarityFilter = document.getElementById('rarity-filter').value;
+            const sortBy = document.getElementById('sort-by').value;
+
+            // Show loading state
+            container.innerHTML = '<div class="nft-loading"><i class="fas fa-spinner fa-spin"></i> Loading your collection...</div>';
+
+            // Simulate network delay for loading animation
+            setTimeout(() => {
+                if (!window.cispWallet?.currentWallet) {
+                    showEmptyState(container, 'Connect your wallet to view your collection');
+                    return;
+                }
+
+                const userNFTs = window.blockchain.getNFTsByOwner(window.cispWallet.currentWallet.address);
+                if (!userNFTs?.length) {
+                    showEmptyState(container, 'No NFTs in your collection yet');
+                    return;
+                }
+
+                // Filter and sort NFTs
+                let filteredNFTs = userNFTs.filter(nft => {
+                    if (categoryFilter !== 'all' && nft.category !== categoryFilter) return false;
+                    if (rarityFilter !== 'all' && nft.rarity !== rarityFilter) return false;
+                    return true;
+                });
+
+                // Sort NFTs
+                filteredNFTs.sort((a, b) => {
+                    switch(sortBy) {
+                        case 'newest':
+                            return b.mintedAt - a.mintedAt;
+                        case 'oldest':
+                            return a.mintedAt - b.mintedAt;
+                        case 'rarity':
+                            return getRarityValue(b.rarity) - getRarityValue(a.rarity);
+                        case 'power':
+                            return (b.attributes?.power || 0) - (a.attributes?.power || 0);
+                        default:
+                            return 0;
+                    }
+                });
+
+                // Clear loading state
+                container.innerHTML = '';
+
+                // Display NFTs
+                filteredNFTs.forEach(nft => {
+                    window.nftSystem.displayNFTCard(nft, container, {
+                        showActions: true,
+                        onClick: (nft) => window.nftSystem.showNFTDetails(nft)
+                    });
+                });
+                
+                // Update collection stats
+                updateCollectionStats(userNFTs);
+            }, 500); // Short delay for loading effect
+        }
+
+        function loadMarketplace() {
+            const container = document.querySelector('[data-container="marketplace"]');
+            const view = document.querySelector('.marketplace-tabs .tab-button.active').dataset.view;
+            const categoryFilter = document.getElementById('market-category').value;
+            const rarityFilter = document.getElementById('market-rarity').value;
+            const priceRange = document.getElementById('price-range').value;
+            const sortBy = document.getElementById('market-sort').value;
+
+            // Show loading state
+            container.innerHTML = '<div class="nft-loading"><i class="fas fa-spinner fa-spin"></i> Loading marketplace...</div>';
+
+            setTimeout(() => {
+                let items = [];
+                if (view === 'listings') {
+                    items = window.nftMarketplace.getActiveListings();
+                } else {
+                    items = window.nftMarketplace.getActiveAuctions();
+                }
+
+                if (!items?.length) {
+                    showEmptyState(container, `No NFTs currently ${view === 'listings' ? 'listed' : 'in auction'}`);
+                    return;
+                }
+
+                // Filter items
+                let filteredItems = items.filter(item => {
+                    const nft = window.blockchain.getNFT(item.nftId);
+                    if (!nft) return false;
+                    if (categoryFilter !== 'all' && nft.category !== categoryFilter) return false;
+                    if (rarityFilter !== 'all' && nft.rarity !== rarityFilter) return false;
+                    if (priceRange !== 'all') {
+                        const price = view === 'listings' ? item.price : item.currentPrice;
+                        const [min, max] = priceRange.split('-').map(Number);
+                        if (max && (price < min || price > max)) return false;
+                        if (!max && price < min) return false;
+                    }
+                    return true;
+                });
+
+                // Sort items
+                filteredItems.sort((a, b) => {
+                    const nftA = window.blockchain.getNFT(a.nftId);
+                    const nftB = window.blockchain.getNFT(b.nftId);
+                    if (!nftA || !nftB) return 0;
+                    
+                    switch(sortBy) {
+                        case 'newest':
+                            return b.createdAt - a.createdAt;
+                        case 'price-low':
+                            return (a.price || a.currentPrice) - (b.price || b.currentPrice);
+                        case 'price-high':
+                            return (b.price || b.currentPrice) - (a.price || a.currentPrice);
+                        case 'rarity':
+                            return getRarityValue(nftB.rarity) - getRarityValue(nftA.rarity);
+                        default:
+                            return 0;
+                    }
+                });
+
+                // Clear loading state
+                container.innerHTML = '';
+
+                // Display items
+                filteredItems.forEach(item => {
+                    const nft = window.blockchain.getNFT(item.nftId);
+                    if (nft) {
+                        window.nftSystem.displayNFTCard(nft, container, {
+                            listing: view === 'listings' ? item : null,
+                            auction: view === 'auctions' ? item : null,
+                            showPrice: true,
+                            showActions: true,
+                            onClick: (nft) => window.nftSystem.showNFTDetails(nft, 
+                                view === 'listings' ? item : null,
+                                view === 'auctions' ? item : null
+                            )
+                        });
+                    }
+                });
+
+                // Update marketplace stats
+                updateMarketplaceStats();
+            }, 500);
+        }
+
+        function updateMintingPreview() {
+            const category = document.getElementById('mint-category').value;
+            const basePrice = 100;
+            const discount = category === 'random' ? 20 : 0;
+            const total = basePrice - discount;
+
+            document.querySelector('.cost-breakdown .cost-item.discount').style.display = 
+                category === 'random' ? 'flex' : 'none';
+            document.querySelector('.cost-breakdown .total span:last-child').textContent = 
+                `${total} xCIS`;
+        }
+
+        function showEmptyState(container, message) {
+            container.innerHTML = `
+                <div class="nft-empty-state">
+                    <i class="fas fa-box-open"></i>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        function getRarityValue(rarity) {
+            const values = {
+                'LEGENDARY': 5,
+                'EPIC': 4,
+                'RARE': 3,
+                'UNCOMMON': 2,
+                'COMMON': 1
+            };
+            return values[rarity] || 0;
+        }
+
+        function updateMarketplaceStats() {
+            const stats = window.nftMarketplace.getMarketStats();
+            document.getElementById('floor-price').textContent = `${stats.floorPrice} xCIS`;
+            document.getElementById('volume').textContent = `${stats.volume24h} xCIS`;
+            document.getElementById('listed-count').textContent = stats.activeListings;
+        }
+        
+        function updateCollectionStats(nfts) {
+            if (!nfts?.length) {
+                document.getElementById('total-nfts').textContent = '0';
+                document.getElementById('rarest-nft').textContent = 'None';
+                document.getElementById('collection-value').textContent = '0 xCIS';
+                return;
+            }
+            
+            // Total NFTs
+            document.getElementById('total-nfts').textContent = nfts.length;
+            
+            // Find rarest NFT
+            const rarityOrder = ['COMMON', 'UNCOMMON', 'RARE', 'EPIC', 'LEGENDARY'];
+            let rarestNFT = nfts[0];
+            
+            nfts.forEach(nft => {
+                const currentRarityIndex = rarityOrder.indexOf(nft.rarity);
+                const rarestRarityIndex = rarityOrder.indexOf(rarestNFT.rarity);
+                
+                if (currentRarityIndex > rarestRarityIndex) {
+                    rarestNFT = nft;
+                }
+            });
+            
+            document.getElementById('rarest-nft').textContent = 
+                `${rarestNFT.name} (${rarestNFT.rarity})`;
+            
+            // Calculate collection value
+            let totalValue = nfts.reduce((sum, nft) => {
+                return sum + window.nftSystem.calculatePrice(nft.rarity);
+            }, 0);
+            
+            document.getElementById('collection-value').textContent = 
+                `${totalValue.toLocaleString()} xCIS`;
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            // Mint button
+            document.getElementById('mint-button').addEventListener('click', async () => {
+                if (!window.cispWallet?.currentWallet) {
+                    window.notifications.show('Please connect your wallet first', 'error');
+                    return;
+                }
+
+                const category = document.getElementById('mint-category').value;
+                const price = category === 'random' ? 80 : 100;
+                
+                // Check balance
+                const walletAddress = window.cispWallet.currentWallet.address;
+                const xcisBalance = window.blockchain.getBalanceXCIS(walletAddress);
+                
+                if (xcisBalance < price) {
+                    window.notifications.show(`Not enough xCIS. You need ${price} xCIS to mint this NFT.`, 'error');
+                    return;
+                }
+
+                // Show minting animation
+                const mintButton = document.getElementById('mint-button');
+                mintButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Minting...';
+                mintButton.disabled = true;
+
+                try {
+                    const nft = await window.nftSystem.mintNFT(
+                        walletAddress,
+                        category === 'random' ? null : category
+                    );
+                    
+                    // Update balances
+                    updateInterface();
+                    
+                    // Show success notification with animation
+                    window.notifications.show(`Successfully minted ${nft.name}!`, 'success');
+                    
+                    // Show NFT details
+                    setTimeout(() => {
+                        window.nftSystem.showNFTDetails(nft);
+                    }, 1000);
+                } catch (error) {
+                    window.notifications.show(error.message, 'error');
+                } finally {
+                    // Reset button
+                    mintButton.innerHTML = '<i class="fas fa-magic"></i> Mint NFT';
+                    mintButton.disabled = false;
+                }
+            });
+
+            // Category selection for minting
+            document.getElementById('mint-category').addEventListener('change', updateMintingPreview);
+
+            // Wallet changes
+            window.addEventListener('walletChanged', updateInterface);
+        }
+
+        function updateInterface() {
+            const walletButton = document.querySelector('.wallet-connect');
+            const xcisBalanceElement = document.getElementById('xcis-balance');
+            const cisBalanceElement = document.getElementById('cis-balance');
+
+            if (window.cispWallet?.currentWallet) {
+                const address = window.cispWallet.currentWallet.address;
+                const xcisBalance = window.blockchain.getBalanceXCIS(address);
+                const cisBalance = window.blockchain.getBalanceCIS(address);
+                
+                // Format wallet address for display
+                const shortAddress = `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+                walletButton.innerHTML = `
+                    <i class="fas fa-wallet"></i> 
+                    <span class="wallet-address">${shortAddress}</span>
+                    <i class="fas fa-circle connected-indicator"></i>
+                `;
+                walletButton.classList.add('connected');
+                
+                // Update balances with animation
+                animateBalanceChange(xcisBalanceElement, xcisBalance);
+                animateBalanceChange(cisBalanceElement, cisBalance);
+            } else {
+                walletButton.innerHTML = '<i class="fas fa-wallet"></i> Connect Wallet';
+                walletButton.classList.remove('connected');
+                xcisBalanceElement.textContent = '0.00';
+                cisBalanceElement.textContent = '0.00';
+            }
+
+            // Reload current tab content
+            const activeTab = document.querySelector('.nav-button.active')?.dataset.tab || 'collection';
+            loadTabContent(activeTab);
+        }
+        
+        function animateBalanceChange(element, newValue) {
+            const currentValue = parseFloat(element.textContent);
+            const step = (newValue - currentValue) / 10;
+            let current = currentValue;
+            
+            function updateValue() {
+                current += step;
+                if ((step > 0 && current >= newValue) || (step < 0 && current <= newValue) || step === 0) {
+                    element.textContent = newValue.toFixed(2);
+                    element.classList.remove('updating');
+                } else {
+                    element.textContent = current.toFixed(2);
+                    requestAnimationFrame(updateValue);
+                }
+            }
+            
+            element.classList.add('updating');
+            updateValue();
+        }
+
+        function showNFTDetails(nft, listing = null, auction = null) {
+            const modal = document.createElement('div');
+            modal.className = 'nft-modal';
+            modal.innerHTML = `
+                <div class="nft-modal-content ${nft.rarity.toLowerCase()}">
+                    <button class="close-button">&times;</button>
+                    <div class="nft-detail-grid">
+                        <div class="nft-detail-image">
+                            <img src="${nft.imagePath}" alt="${nft.name}">
+                            ${nft.fusion.count > 0 ? `
+                                <div class="fusion-badge">
+                                    <i class="fas fa-atom"></i> Fusion: ${nft.fusion.count}
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="nft-detail-info">
+                            <h2>${nft.name}</h2>
+                            <p class="rarity ${nft.rarity.toLowerCase()}">${nft.rarity}</p>
+                            <p class="description">${nft.description}</p>
+                            
+                            <div class="attributes-grid">
+                                <div class="attribute">
+                                    <span class="label">Power</span>
+                                    <span class="value">${nft.attributes.power}</span>
+                                </div>
+                                <div class="attribute">
+                                    <span class="label">Energy</span>
+                                    <span class="value">${nft.attributes.energy}</span>
+                                </div>
+                                <div class="attribute">
+                                    <span class="label">Level</span>
+                                    <span class="value">${nft.level}</span>
+                                </div>
+                                <div class="attribute">
+                                    <span class="label">Evolution</span>
+                                    <span class="value">Stage ${nft.evolutionStage}/3</span>
+                                </div>
+                            </div>
+
+                            ${generateMarketActions(nft, listing, auction)}
+
+                            <div class="price-history">
+                                <h3>Price History</h3>
+                                <div id="price-chart-${nft.id}" class="price-chart"></div>
+                            </div>
+
+                            <div class="nft-stats">
+                                <p>Minted: ${new Date(nft.mintedAt).toLocaleDateString()}</p>
+                                <p>ID: ${nft.id}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.querySelector('.close-button').onclick = () => modal.remove();
+            document.body.appendChild(modal);
+
+            // Initialize price history chart
+            if (window.nftMarketplace) {
+                const history = window.nftMarketplace.getPriceHistory(nft.id);
+                renderPriceChart(`price-chart-${nft.id}`, history);
+            }
+        }
+
+        function generateMarketActions(nft, listing, auction) {
+            const isOwned = window.nftSystem.isNFTOwned(nft.id);
+            let actions = '';
+
+            if (isOwned) {
+                if (!listing && !auction) {
+                    actions = `
+                        <div class="market-actions">
+                            <div class="action-group">
+                                <h3>List NFT</h3>
+                                <div class="listing-form">
+                                    <select id="listing-type-${nft.id}">
+                                        <option value="fixed">Fixed Price</option>
+                                        <option value="auction">Auction</option>
+                                    </select>
+                                    <input type="number" id="price-input-${nft.id}" 
+                                           placeholder="Price in xCIS" min="100" step="10">
+                                    <div class="auction-options" style="display: none;">
+                                        <input type="number" id="duration-${nft.id}" 
+                                               placeholder="Duration (hours)" min="1" max="168">
+                                    </div>
+                                    <button onclick="listNFT('${nft.id}')" class="action-button primary">
+                                        <i class="fas fa-tag"></i> List NFT
+                                    </button>
+                                </div>
+                            </div>
+                            ${nft.evolutionStage < 3 ? `
+                                <div class="action-group">
+                                    <h3>Evolution</h3>
+                                    <button onclick="evolveNFT('${nft.id}')" class="action-button secondary">
+                                        <i class="fas fa-arrow-up"></i> Evolve (${getEvolutionCost(nft)} xCIS)
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                } else {
+                    actions = `
+                        <div class="market-actions">
+                            <h3>Active ${listing ? 'Listing' : 'Auction'}</h3>
+                            <div class="listing-info">
+                                ${listing ? `
+                                    <p>Listed for: ${listing.price} xCIS</p>
+                                    <button onclick="cancelListing('${nft.id}')" class="action-button secondary">
+                                        <i class="fas fa-times"></i> Cancel Listing
+                                    </button>
+                                ` : `
+                                    <p>Current Bid: ${auction.currentPrice} xCIS</p>
+                                    <p>Time Left: <span class="auction-timer" 
+                                       data-end="${auction.endTime}"></span></p>
+                                    ${auction.bids.length === 0 ? `
+                                        <button onclick="cancelAuction('${nft.id}')" 
+                                                class="action-button secondary">
+                                            <i class="fas fa-times"></i> Cancel Auction
+                                        </button>
+                                    ` : ''}
+                                `}
+                            </div>
+                        </div>
+                    `;
+                }
+            } else if (listing || auction) {
+                actions = `
+                    <div class="market-actions">
+                        ${listing ? `
+                            <div class="purchase-info">
+                                <h3>Purchase NFT</h3>
+                                <p class="price">Price: ${listing.price} xCIS</p>
+                                <button onclick="buyNFT('${nft.id}')" class="action-button primary">
+                                    <i class="fas fa-shopping-cart"></i> Buy Now
+                                </button>
+                            </div>
+                        ` : `
+                            <div class="auction-info">
+                                <h3>Auction</h3>
+                                <p>Current Bid: ${auction.currentPrice} xCIS</p>
+                                <p>Minimum Bid: ${getMinimumBid(auction)} xCIS</p>
+                                <p>Time Left: <span class="auction-timer" 
+                                   data-end="${auction.endTime}"></span></p>
+                                <div class="bid-form">
+                                    <input type="number" id="bid-amount-${nft.id}" 
+                                           placeholder="Bid Amount" 
+                                           min="${getMinimumBid(auction)}" 
+                                           step="10">
+                                    <button onclick="placeBid('${nft.id}')" 
+                                            class="action-button primary">
+                                        <i class="fas fa-gavel"></i> Place Bid
+                                    </button>
+                                </div>
+                            </div>
+                        `}
+                    </div>
+                `;
+            }
+
+            return actions;
+        }
+
+        function updateAuctionTimers() {
+            document.querySelectorAll('.auction-timer').forEach(timer => {
+                const endTime = parseInt(timer.dataset.end);
+                const now = Date.now();
+                const timeLeft = endTime - now;
+
+                if (timeLeft <= 0) {
+                    timer.textContent = 'Ended';
+                    timer.classList.add('ended');
+                } else {
+                    const hours = Math.floor(timeLeft / 3600000);
+                    const minutes = Math.floor((timeLeft % 3600000) / 60000);
+                    const seconds = Math.floor((timeLeft % 60000) / 1000);
+                    timer.textContent = `${hours}h ${minutes}m ${seconds}s`;
+                    
+                    if (timeLeft < 300000) { // Less than 5 minutes
+                        timer.classList.add('ending-soon');
+                    }
+                }
+            });
+        }
+
+        // Start auction timer updates
+        setInterval(updateAuctionTimers, 1000);
+
+        async function listNFT(nftId) {
+            const listingType = document.getElementById(`listing-type-${nftId}`).value;
+            const price = parseFloat(document.getElementById(`price-input-${nftId}`).value);
+            
+            if (!price || price < 100) {
+                window.notifications.show('Minimum price is 100 xCIS', 'error');
+                return;
+            }
+
+            try {
+                if (listingType === 'fixed') {
+                    await window.nftMarketplace.listNFT(
+                        window.cispWallet.currentWallet.address,
+                        nftId,
+                        price
+                    );
+                } else {
+                    const duration = parseInt(document.getElementById(`duration-${nftId}`).value);
+                    if (!duration || duration < 1 || duration > 168) {
+                        window.notifications.show('Duration must be between 1 and 168 hours', 'error');
+                        return;
+                    }
+                    await window.nftMarketplace.createAuction(
+                        window.cispWallet.currentWallet.address,
+                        nftId,
+                        price,
+                        duration * 3600000 // Convert hours to milliseconds
+                    );
+                }
+                
+                // Close modal and refresh marketplace
+                document.querySelector('.nft-modal')?.remove();
+                loadMarketplace();
+            } catch (error) {
+                window.notifications.show(error.message, 'error');
+            }
+        }
+
+        async function placeBid(nftId) {
+            const bidAmount = parseFloat(document.getElementById(`bid-amount-${nftId}`).value);
+            if (!bidAmount) {
+                window.notifications.show('Please enter a bid amount', 'error');
+                return;
+            }
+
+            try {
+                const auction = window.nftMarketplace.auctions.find(a => 
+                    a.nftId === nftId && a.status === 'active'
+                );
+                
+                await window.nftMarketplace.placeBid(
+                    window.cispWallet.currentWallet.address,
+                    auction.id,
+                    bidAmount
+                );
+
+                // Refresh auction display
+                const nft = window.blockchain.getNFT(nftId);
+                window.nftSystem.showNFTDetails(nft, null, auction);
+                loadMarketplace();
+            } catch (error) {
+                window.notifications.show(error.message, 'error');
+            }
+        }
+
+        async function buyNFT(nftId) {
+            try {
+                const listing = window.nftMarketplace.listings.find(l => 
+                    l.nftId === nftId && l.status === 'active'
+                );
+                
+                await window.nftMarketplace.buyNFT(
+                    window.cispWallet.currentWallet.address,
+                    listing.id
+                );
+
+                // Close modal and refresh marketplace
+                document.querySelector('.nft-modal')?.remove();
+                loadMarketplace();
+                loadUserCollection();
+            } catch (error) {
+                window.notifications.show(error.message, 'error');
+            }
+        }
+
+        async function cancelListing(nftId) {
+            try {
+                await window.nftMarketplace.cancelListing(
+                    window.cispWallet.currentWallet.address,
+                    nftId
+                );
+
+                // Close modal and refresh marketplace
+                document.querySelector('.nft-modal')?.remove();
+                loadMarketplace();
+                loadUserCollection();
+            } catch (error) {
+                window.notifications.show(error.message, 'error');
+            }
+        }
+
+        async function cancelAuction(nftId) {
+            try {
+                const auction = window.nftMarketplace.auctions.find(a => 
+                    a.nftId === nftId && a.status === 'active'
+                );
+                
+                await window.nftMarketplace.cancelAuction(
+                    window.cispWallet.currentWallet.address,
+                    auction.id
+                );
+
+                // Close modal and refresh marketplace
+                document.querySelector('.nft-modal')?.remove();
+                loadMarketplace();
+                loadUserCollection();
+            } catch (error) {
+                window.notifications.show(error.message, 'error');
+            }
+        }
+
+        function getMinimumBid(auction) {
+            return Math.ceil(auction.currentPrice * (1 + window.nftMarketplace.minBidIncrement));
+        }
+
+        function getEvolutionCost(nft) {
+            return window.nftSystem.rarityLevels[nft.rarity].evolutionCost;
+        }
+
+        function renderPriceChart(containerId, history) {
+            const container = document.getElementById(containerId);
+            if (!container || !history?.length) {
+                container.innerHTML = '<p class="empty-state">No price history available</p>';
+                return;
+            }
+
+            // Implementation for price chart visualization
+            // You can use a library like Chart.js or create a custom visualization
+            const prices = history.map(h => h.price);
+            const dates = history.map(h => new Date(h.timestamp));
+            
+            // For now, we'll show a simple table
+            container.innerHTML = `
+                <table class="price-history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${history.map(h => `
+                            <tr>
+                                <td>${new Date(h.timestamp).toLocaleDateString()}</td>
+                                <td>${h.type}</td>
+                                <td>${h.price} xCIS</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // Add event listeners for marketplace tabs
+        document.querySelectorAll('.marketplace-tabs .tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.marketplace-tabs .tab-button').forEach(btn => 
+                    btn.classList.remove('active')
+                );
+                button.classList.add('active');
+                loadMarketplace();
+            });
+        });
+
+        // Add event listener for listing type change
+        document.addEventListener('change', (e) => {
+            if (e.target.id.startsWith('listing-type-')) {
+                const nftId = e.target.id.replace('listing-type-', '');
+                const auctionOptions = e.target.closest('.listing-form')
+                    .querySelector('.auction-options');
+                
+                if (e.target.value === 'auction') {
+                    auctionOptions.style.display = 'block';
+                } else {
+                    auctionOptions.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

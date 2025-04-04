@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Program - COSMIC SPACE PROTOCOL</title>
+    <link rel="stylesheet" href="styles-home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="cosmic-header">
+        <div class="logo-container">
+            <i class="fas fa-galaxy"></i>
+            <h1>COSMIC SPACE PROTOCOL</h1>
+        </div>
+        <div class="header-controls">
+            <div class="wallet-info" id="wallet-info" style="display: none;">
+                <span id="wallet-balance">0 xCIS</span>
+                <span id="wallet-address"></span>
+            </div>
+            <button class="wallet-connect" onclick="connectWallet()">
+                <i class="fas fa-wallet"></i> Connect Wallet
+            </button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <h2>Cosmic Referral Program</h2>
+        <div class="referral-stats">
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span class="stat-label">Your Level</span>
+                    <span class="stat-value" id="referralLevel">-</span>
+                    <span class="stat-title" id="levelTitle">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Referrals</span>
+                    <span class="stat-value" id="totalReferrals">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Rewards</span>
+                    <span class="stat-value" id="totalRewards">-</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="referral-code-section">
+            <h3>Your Unique Referral Code</h3>
+            <div class="code-container">
+                <input type="text" id="referralCode" readonly>
+                <button onclick="copyReferralCode()" class="copy-button">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+
+        <div class="rewards-table">
+            <h3>Level Rewards</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>Required</th>
+                            <th>Rewards</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rewardsTableBody">
+                        <!-- Filled dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="notifications.js"></script>
+    <script src="referral-system.js"></script>
+    <script>
+        async function updateReferralStats() {
+            const currentWallet = window.cispWallet?.getCurrentWallet();
+            if (!currentWallet) return;
+
+            try {
+                const stats = window.referralSystem.getReferralStats(currentWallet.address);
+                document.getElementById('referralLevel').textContent = `Level ${stats.currentLevel}`;
+                document.getElementById('levelTitle').textContent = stats.levelTitle;
+                document.getElementById('totalReferrals').textContent = stats.totalReferrals;
+                document.getElementById('totalRewards').textContent = `${stats.totalRewards} xCIS`;
+                document.getElementById('referralCode').value = stats.referralCode;
+
+                const tableBody = document.getElementById('rewardsTableBody');
+                if (tableBody && window.referralSystem.levels) {
+                    tableBody.innerHTML = window.referralSystem.levels.map(level => `
+                        <tr class="${level.level <= stats.currentLevel ? 'achieved' : ''}">
+                            <td>Level ${level.level}</td>
+                            <td>${level.required} referrals</td>
+                            <td>${level.reward.xcis} xCIS ${level.reward.nft ? '+ NFT' : ''}</td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error updating referral stats:', error);
+                window.notifications?.show('Error updating referral stats', 'error');
+            }
+        }
+
+        function copyReferralCode() {
+            const codeInput = document.getElementById('referralCode');
+            if (!codeInput?.value) {
+                window.notifications?.show('No referral code available', 'error');
+                return;
+            }
+
+            try {
+                codeInput.select();
+                document.execCommand('copy');
+                window.notifications?.show('Referral code copied to clipboard!', 'success');
+            } catch (error) {
+                console.error('Error copying referral code:', error);
+                window.notifications?.show('Failed to copy referral code', 'error');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (window.cispWallet?.getCurrentWallet()) {
+                await updateReferralStats();
+            }
+        });
+    </script>
+</body>
+</html>

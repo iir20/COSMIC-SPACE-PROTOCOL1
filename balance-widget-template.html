@@ -1,0 +1,120 @@
+<!-- 
+  Balance Widget Template
+  
+  This template demonstrates how to implement the balance display widget
+  across different pages in the COSMIC SPACE PROTOCOL application.
+  
+  Copy and adapt this code as needed for different pages.
+-->
+
+<!-- Basic Balance Widget -->
+<div class="balance-container">
+  <!-- This will be populated by the JS code -->
+  <div id="basic-balance-widget" class="wallet-balance-widget"></div>
+</div>
+
+<!-- Balance Widget with Customized Options -->
+<div class="balance-container custom-theme">
+  <div id="custom-balance-widget" class="wallet-balance-widget" 
+       data-show-usd="true" 
+       data-show-change="true" 
+       data-show-total="true" 
+       data-show-icons="true">
+  </div>
+</div>
+
+<!-- Mini Balance Display for Navigation -->
+<div class="navigation-balance">
+  <span class="balance-mini-display" data-token="CIS"></span>
+  <span class="balance-mini-display" data-token="xCIS"></span>
+</div>
+
+<!-- JavaScript to initialize the widget -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Wait for wallet manager to be initialized
+    if (window.walletManager && window.walletManager.getBalances) {
+      initializeBalanceWidgets();
+    } else {
+      // If wallet manager isn't available yet, wait for it
+      window.addEventListener('walletManagerInitialized', initializeBalanceWidgets);
+    }
+  });
+
+  function initializeBalanceWidgets() {
+    try {
+      // Get balances from wallet manager
+      const balances = window.walletManager.getBalances();
+      
+      // Initialize basic widget
+      const basicWidget = document.getElementById('basic-balance-widget');
+      if (basicWidget && window.renderBalanceWidget) {
+        window.renderBalanceWidget(basicWidget, balances);
+      }
+      
+      // Initialize custom widget
+      const customWidget = document.getElementById('custom-balance-widget');
+      if (customWidget && window.renderBalanceWidget) {
+        window.renderBalanceWidget(customWidget, balances, {
+          // Custom options can be set here
+          showUSD: true,
+          showChange: true,
+          tokenPrice: {
+            CIS: 0.25,  // Custom price
+            xCIS: 0.30  // Custom price
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error initializing balance widgets:', error);
+    }
+  }
+  
+  // Listen for balance updates
+  window.addEventListener('walletBalanceUpdated', function(event) {
+    // Re-initialize widgets when balance changes
+    initializeBalanceWidgets();
+  });
+</script>
+
+<!-- CSS Customization Example -->
+<style>
+  /* Custom theme for balance container */
+  .custom-theme {
+    background: rgba(25, 18, 50, 0.85);
+    border-color: rgba(100, 255, 218, 0.3);
+  }
+  
+  .custom-theme .token-name {
+    color: rgba(255, 255, 255, 0.95);
+  }
+  
+  .custom-theme .balance-value {
+    font-size: 1.2rem;
+    text-shadow: 0 0 12px rgba(100, 255, 218, 0.7);
+  }
+  
+  /* Mini balance display customization */
+  .navigation-balance {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    background: rgba(13, 27, 72, 0.5);
+    border-radius: 8px;
+  }
+  
+  .balance-mini-display {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: white;
+  }
+  
+  .balance-mini-display .token-badge {
+    margin-left: 5px;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+  }
+</style> 
